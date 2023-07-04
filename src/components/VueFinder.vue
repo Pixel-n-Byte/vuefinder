@@ -128,6 +128,19 @@ emitter.on('vf-modal-show', (item) => {
   modal.data = item;
 });
 
+const emit = defineEmits(['deleteButton', 'fileMoved']);
+
+emitter.on('delete-button', (item) => {
+  console.log('emit delete');
+  emit('deleteButton');
+});
+
+emitter.on('file-moved', (data) => {
+  console.log('emit file moved');
+  console.log(data);
+  emit('fileMoved', data);
+})
+
 const updateItems = (data) => {
   Object.assign(fetchData, data);
   emitter.emit('vf-nodes-selected', {});

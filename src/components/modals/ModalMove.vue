@@ -79,6 +79,11 @@ const move = () => {
         item: props.selection.items.to.path
       },
       onSuccess: () => {
+        emitter.emit('file-moved', {
+          from: props.current.dirname,
+          to: props.selection.items.to.path,
+          files: items.value.map(({path, type}) => ({path, type}))
+        });
         emitter.emit('vf-toast-push', {label: t('Files moved.', props.selection.items.to.name)});
       },
       onError: (e) => {
