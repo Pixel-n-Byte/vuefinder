@@ -1,31 +1,33 @@
 <template>
   <v-f-modal-layout>
-    <div class="sm:flex sm:items-start">
-      <div
-        class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 stroke-blue-600 dark:stroke-blue-100"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="none"
-          stroke-width="1.5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-          />
-        </svg>
+    <div class="flex flex-col h-full items-center">
+      <div class="custom-file-picker-title">
+        <div class="file-picker-title-img">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 stroke-blue-600 dark:stroke-blue-100"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="none"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+            />
+          </svg>
+
+          <h3
+            class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400"
+            id="modal-title"
+          >
+            {{ t("Upload files") }}
+          </h3>
+        </div>
+        <hr />
       </div>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-        <h3
-          class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400"
-          id="modal-title"
-        >
-          {{ t("Upload files") }}
-        </h3>
+      <div class="mt-3 text-center custom-file-picker-body">
         <div class="mt-2">
           <div class="text-gray-500 mb-1">
             <div v-for="file in queue">
@@ -54,11 +56,60 @@
       </div>
     </div>
     <template v-slot:buttons>
-      <div>
-        <div>search terms</div>
-        <div>details</div>
+      <div class="search-terms-div bg-white dark:bg-gray-800">
+        <div>
+          <label
+            class="custom-uploader-label"
+            for="img-upload-rte-search-terms"
+          >
+            <div class="post-info icon-circle search-icon">
+              <img
+                class="router-img-btn-img"
+                src="../../assets/imagetwo.svg"
+                alt=""
+                srcset=""
+              />
+            </div>
+            Search Terms</label
+          >
+        </div>
+        <hr />
+        <div>
+          <input
+            id="search-terms-file-picker"
+            class="form-control user-dynamic-input address-autocomplete"
+            type="text"
+            placeholder="Search Terms"
+            autocomplete="off"
+          />
+        </div>
       </div>
-      <div>
+      <div class="details-div bg-white dark:bg-gray-800">
+        <div>
+          <label class="custom-uploader-label" for="img-upload-rte-captions">
+            <div class="post-info icon-circle details-icon">
+              <img
+                class="router-img-btn-img"
+                src="../../assets/imagefive.svg"
+                alt=""
+                srcset=""
+              />
+            </div>
+            Video Details</label
+          >
+        </div>
+        <hr />
+        <div>
+          <input
+            id="details-file-picker"
+            class="form-control user-dynamic-input address-autocomplete"
+            type="text"
+            placeholder="Details"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+      <div class="bg-white custom-file-picker-action">
         <button
           :disabled="disableUploadButton"
           @click.prevent="handleUpload"

@@ -9,7 +9,7 @@
     tabindex="0"
   >
     <div
-      class="fixed inset-0 bg-gray-500 dark:bg-gray-600 dark:bg-opacity-75 bg-opacity-75 transition-opacity"
+      class="fixed inset-0 bg-gray-500 dark:bg-gray-600 dark:bg-opacity-75 bg-opacity-75 transition-opacity custom-upload-background"
     ></div>
 
     <div class="fixed z-10 inset-0 overflow-hidden">
@@ -20,11 +20,11 @@
         <div
           class="custom-popup-layout transition-all"
         >
-          <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="bg-white dark:bg-gray-800 custom-layout-pop-window">
             <slot />
           </div>
           <div
-            class="bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+            class="custom-layout-button-slot"
           >
             <slot name="buttons" />
           </div>

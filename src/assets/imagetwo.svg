@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_664" data-name="Group 664" transform="translate(-0.14 -0.14)">
+    <rect id="Rectangle_208" data-name="Rectangle 208" width="24" height="24" transform="translate(0.14 0.14)" fill="none"/>
+    <path id="magnify" d="M10.247,3a7.251,7.251,0,0,1,5.507,11.962l.3.3h.881l5.574,5.574L20.838,22.51l-5.574-5.574v-.881l-.3-.3A7.248,7.248,0,1,1,10.247,3m0,2.23a5.017,5.017,0,1,0,5.017,5.017A5,5,0,0,0,10.247,5.23Z" transform="translate(-0.86 -0.86)" fill="#ffb901"/>
+  </g>
+</svg>
