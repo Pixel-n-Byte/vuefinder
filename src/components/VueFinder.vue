@@ -132,12 +132,11 @@ const emit = defineEmits(['deleteButton', 'fileMoved']);
 
 emitter.on('delete-button', (item) => {
   console.log('emit delete');
-  emit('deleteButton');
+  emit('deleteButton', item);
 });
 
 emitter.on('file-moved', (data) => {
   console.log('emit file moved');
-  console.log(data);
   emit('fileMoved', data);
 })
 

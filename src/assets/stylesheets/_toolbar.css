@@ -1,0 +1,15 @@
+.custom-upload-button {
+  color: white;
+  font-size: 14px;
+  background-color: #25a8dd;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 8px 40px;
+}
+.cusom-upload-button-div {
+  bottom: 5rem;
+}
