@@ -1,6 +1,6 @@
 <template>
   <v-f-modal-layout>
-    <div class="sm:flex sm:items-start">
+    <div class="sm:flex custom-new-folder-popup">
       <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div>
           <Text v-if="loadPreview('text')" :selection="selection" @load="setLoad(true)"/>
