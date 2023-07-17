@@ -3,6 +3,7 @@
 .custom-list-item {
 } */
 .custom-grid-item {
+  margin-left: 0px !important;
   margin-right: 26px !important;
   margin-bottom: 26px !important;
   min-width: 343px !important;
@@ -16,6 +17,7 @@
   justify-content: center;
   grid-gap: 36px;
   justify-content: flex-start !important;
+  width: 100%;
 }
 .custom-item-text {
   font-weight: 500;
@@ -34,4 +36,16 @@
   font-weight: 400;
   font-size: 14px;
   padding: 2rem;
+}
+.custom-explorer {
+  margin-top: 2rem;
+}
+.grid-folder-view-item {
+  background-color: transparent !important;
+}
+.grid-folder-view-item:has(.custom-grid-item-file) {
+  width: 100% !important;
+}
+.relative.grid-folder-view-item {
+  background-color: transparent !important;
 }

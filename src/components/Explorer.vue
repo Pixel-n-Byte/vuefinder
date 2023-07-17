@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex-auto flex flex-col overflow-hidden">
+  <div class="relative flex-auto flex flex-col overflow-hidden custom-explorer">
     <div
       v-if="view == 'list' || searchQuery.length"
       class="grid grid-cols-12 border-b border-neutral-300 border-gray-200 dark:border-gray-700 text-xs select-none"
@@ -82,8 +82,8 @@
           items: getSelectedItems(),
         })
       "
-      :class="fullScreen ? '' : 'resize-y'"
-      class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto p-1 z-0"
+      :class="fullScreen ? '' : ''"
+      class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto"
       ref="selectorArea"
     >
       <div
@@ -108,9 +108,6 @@
       >
         <div class="grid grid-cols-12 items-center">
           <div class="flex col-span-7 items-center">
-            <!-- <svg v-if="item.type == 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg> -->
             <img v-if="item.type == 'dir'" src="../assets/folder.svg" alt="" />
             <svg
               v-else
@@ -165,9 +162,6 @@
       >
         <div class="grid grid-cols-12 items-center">
           <div class="flex col-span-7 items-center">
-            <!-- <svg v-if="item.type == 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg> -->
             <img v-if="item.type == 'dir'" src="../assets/folder.svg" alt="" />
 
             <svg
@@ -225,10 +219,7 @@
         :data-index="index"
       >
         <div class="custom-grid-item-div">
-          <div class="relative">
-            <!-- <svg v-if="item.type == 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg> -->
+          <div class="relative grid-folder-view-item" @dblclick="testEmit">
             <img v-if="item.type == 'dir'" src="../assets/folder.svg" alt="" />
             <img
               class="custom-grid-item-file lazy"
@@ -553,4 +544,9 @@ onMounted(() => {
     () => emitter.emit("vf-explorer-update")
   );
 });
+
+const testEmit = () => {
+  console.log("test emit");
+  emitter.emit("custom-emit-test");
+};
 </script>

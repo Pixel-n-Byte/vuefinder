@@ -83,6 +83,17 @@
             autocomplete="off"
           />
         </div>
+        <div id="tags-space">
+          <span v-for="tag in img_tags" :key="tag.id" class="img-tag">
+            <img
+              @click="deleteTag(tag.tag_id)"
+              src="../../assets/x.svg"
+              alt="delete tag"
+              class="delete-tag-x"
+            />
+            <p>{{ tag.tag_name }}</p>
+          </span>
+        </div>
       </div>
       <div class="details-div bg-white dark:bg-gray-800">
         <div>
@@ -95,7 +106,7 @@
                 srcset=""
               />
             </div>
-            Video Details</label
+            File Details</label
           >
         </div>
         <hr />
@@ -164,6 +175,7 @@ const container = ref(null);
 const pickFiles = ref(null);
 const queue = ref([]);
 const message = ref("");
+let img_tags = ref([]);
 
 const disableUploadButton = ref(true);
 
@@ -249,5 +261,23 @@ onMounted(() => {
   });
 
   uploader.value.init();
+
+  addImageTags();
 });
+function addImageTags() {
+  let tag_input = document.querySelector("#search-terms-file-picker");
+  tag_input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      img_tags.value.push({
+        tag_id: img_tags.value.length + 1,
+        tag_name: e.target.value,
+      });
+      tag_input.value = "";
+    }
+  });
+}
+function deleteTag(id) {
+  const tag = img_tags.value.findIndex((obj) => obj.tag_id === id);
+  img_tags.value.splice(tag, 1);
+}
 </script>

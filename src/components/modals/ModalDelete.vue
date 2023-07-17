@@ -1,6 +1,6 @@
 <template>
   <v-f-modal-layout>
-    <div class="sm:flex custom-new-folder-popup">
+    <div class="sm:flex custom-new-folder-popup delete-modal-container">
       <div class="custom-file-picker-title">
         <div class="file-picker-title-img">
           <svg
@@ -27,7 +27,7 @@
         </div>
         <hr />
       </div>
-      <div class="mt-3 text-center w-full p-4 h-full">
+      <div class="mt-3 text-center create-folder-form custom-delete-modal">
         <h3
           class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400"
           id="modal-title"
@@ -96,11 +96,11 @@
       >
         {{ t("Cancel") }}
       </button>
-      <div
+      <!-- <div
         class="m-auto font-bold text-red-500 text-sm dark:text-red-200 text-center"
       >
         {{ t("This action cannot be undone.") }}
-      </div>
+      </div> -->
     </template>
   </v-f-modal-layout>
 </template>
