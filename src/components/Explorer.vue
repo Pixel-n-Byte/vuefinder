@@ -219,7 +219,7 @@
         :data-index="index"
       >
         <div class="custom-grid-item-div">
-          <div class="relative grid-folder-view-item" @dblclick="testEmit">
+          <div class="relative grid-folder-view-item">
             <img v-if="item.type == 'dir'" src="../assets/folder.svg" alt="" />
             <img
               class="custom-grid-item-file lazy"
@@ -394,7 +394,7 @@ const openItem = (item) => {
       params: { q: "index", adapter: props.data.adapter, path: item.path },
     });
   } else {
-    emitter.emit("vf-modal-show", {
+    emitter.emit("custom-modal-show", {
       type: "preview",
       adapter: props.data.adapter,
       item,
@@ -544,9 +544,4 @@ onMounted(() => {
     () => emitter.emit("vf-explorer-update")
   );
 });
-
-const testEmit = () => {
-  console.log("test emit");
-  emitter.emit("custom-emit-test");
-};
 </script>

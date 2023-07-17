@@ -1,42 +1,60 @@
 <template>
   <div class="vuefinder">
-    <div :class="darkMode ? 'dark': ''">
+    <div :class="darkMode ? 'dark' : ''">
       <div
-          :class="fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
-          :style="!fullScreen ? 'max-height: ' + maxHeight : ''"
-          class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
-          @mousedown="emitter.emit('vf-contextmenu-hide')" @touchstart="emitter.emit('vf-contextmenu-hide')">
+        :class="
+          fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'
+        "
+        :style="!fullScreen ? 'max-height: ' + maxHeight : ''"
+        class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
+        @mousedown="emitter.emit('vf-contextmenu-hide')"
+        @touchstart="emitter.emit('vf-contextmenu-hide')"
+      >
         <v-f-toolbar :data="fetchData" />
-        <v-f-breadcrumb :data="fetchData"/>
-        <v-f-explorer :view="view" :data="fetchData"/>
-        <v-f-statusbar :data="fetchData"/>
+        <v-f-breadcrumb :data="fetchData" />
+        <v-f-explorer :view="view" :data="fetchData" />
+        <v-f-statusbar :data="fetchData" />
       </div>
 
-      <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :selection="modal.data" :current="fetchData"/>
-      <v-f-context-menu :current="fetchData"/>
-      <iframe id="download_frame" style="display:none;"></iframe>
+      <component
+        v-if="modal.active"
+        :is="'v-f-modal-' + modal.type"
+        :selection="modal.data"
+        :current="fetchData"
+      />
+      <v-f-context-menu :current="fetchData" />
+      <iframe id="download_frame" style="display: none"></iframe>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'VueFinder'
+  name: "VueFinder",
 };
 </script>
 
 <script setup>
-import {defineProps, onMounted, provide, reactive, ref} from 'vue';
-import ajax from '../utils/ajax.js';
-import mitt from 'mitt';
-import {useStorage} from '../composables/useStorage.js';
-import {useApiUrl} from '../composables/useApiUrl.js';
-import VFToolbar from '../components/Toolbar.vue';
-import VFExplorer from '../components/Explorer.vue';
-import VFStatusbar from '../components/Statusbar.vue';
-import VFBreadcrumb from '../components/Breadcrumb.vue';
-import VFContextMenu from '../components/ContextMenu.vue';
-import {useI18n} from '../composables/useI18n.js';
+import { defineProps, onMounted, provide, reactive, ref } from "vue";
+import ajax from "../utils/ajax.js";
+import mitt from "mitt";
+import { useStorage } from "../composables/useStorage.js";
+import { useApiUrl } from "../composables/useApiUrl.js";
+import VFToolbar from "../components/Toolbar.vue";
+import VFExplorer from "../components/Explorer.vue";
+import VFStatusbar from "../components/Statusbar.vue";
+import VFBreadcrumb from "../components/Breadcrumb.vue";
+import VFContextMenu from "../components/ContextMenu.vue";
+import { useI18n } from "../composables/useI18n.js";
+
+const doSomething = () => {
+  emitter.emit("vf-fetch", { params: { q: "index", adapter: adapter.value } });
+  console.log("here")
+};
+
+defineExpose({
+  doSomething,
+});
 
 const props = defineProps({
   url: {
@@ -44,150 +62,165 @@ const props = defineProps({
   },
   id: {
     type: String,
-    default: 'vf'
+    default: "vf",
   },
   dark: {
     type: Boolean,
-    default: false
+    default: false,
   },
   locale: {
     type: String,
-    default: 'en'
+    default: "en",
   },
   maxHeight: {
     type: String,
-    default: '600px'
+    default: "600px",
   },
   maxFileSize: {
     type: String,
-    default: '10mb'
+    default: "10mb",
   },
   postData: {
     type: Object,
-    default: {}
-  }
+    default: {},
+  },
 });
 const emitter = mitt();
-const {setStore, getStore} = useStorage(props.id);
-const adapter =ref(getStore('adapter'));
+const { setStore, getStore } = useStorage(props.id);
+const adapter = ref(getStore("adapter"));
 
-provide('emitter', emitter);
-provide('storage', useStorage(props.id));
-provide('postData', props.postData);
-provide('adapter', adapter);
-provide('maxFileSize', props.maxFileSize);
+provide("emitter", emitter);
+provide("storage", useStorage(props.id));
+provide("postData", props.postData);
+provide("adapter", adapter);
+provide("maxFileSize", props.maxFileSize);
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
-const {t} = i18n;
-provide('i18n', i18n);
+const { t } = i18n;
+provide("i18n", i18n);
 
-const {apiUrl, setApiUrl} = useApiUrl();
+const { apiUrl, setApiUrl } = useApiUrl();
 setApiUrl(props.url);
 
-const fetchData = reactive({adapter: adapter.value, storages: [], dirname: '.', files: []});
+const fetchData = reactive({
+  adapter: adapter.value,
+  storages: [],
+  dirname: ".",
+  files: [],
+});
 
 // View Management
-const view = ref(getStore('viewport', 'grid'));
-const darkMode = ref(getStore('darkMode', props.dark));
+const view = ref(getStore("viewport", "grid"));
+const darkMode = ref(getStore("darkMode", props.dark));
 
-emitter.on('vf-darkMode-toggle', () => {
+emitter.on("vf-darkMode-toggle", () => {
   darkMode.value = !darkMode.value;
-  setStore('darkMode', darkMode.value);
+  setStore("darkMode", darkMode.value);
 });
 
 const loadingState = ref(false);
 
-provide('loadingState', loadingState);
+provide("loadingState", loadingState);
 
-const fullScreen = ref(getStore('full-screen', false));
+const fullScreen = ref(getStore("full-screen", false));
 
-emitter.on('vf-fullscreen-toggle', () => {
+emitter.on("vf-fullscreen-toggle", () => {
   fullScreen.value = !fullScreen.value;
-  setStore('full-screen', fullScreen.value);
+  setStore("full-screen", fullScreen.value);
 });
 
-emitter.on('vf-view-toggle', (newView) => {
+emitter.on("vf-view-toggle", (newView) => {
   view.value = newView;
 });
 
 // Modal Management
 const modal = reactive({
   active: false,
-  type: 'delete',
-  data: {}
+  type: "delete",
+  data: {},
 });
 
-emitter.on('vf-modal-close', () => {
+emitter.on("vf-modal-close", () => {
   modal.active = false;
 });
 
-emitter.on('vf-modal-show', (item) => {
+emitter.on("vf-modal-show", (item) => {
   modal.active = true;
   modal.type = item.type;
   modal.data = item;
 });
-
-const emit = defineEmits(['deleteButton', 'fileMoved']);
-
-emitter.on('delete-button', (item) => {
-  console.log('emit delete');
-  emit('deleteButton', item);
+emitter.on("custom-modal-show", (item) => {
+  emit("customUploadItem", item);
 });
 
-emitter.on('file-moved', (data) => {
-  console.log('emit file moved');
-  emit('fileMoved', data);
-})
+const emit = defineEmits(["deleteButton", "fileMoved", "fileUploaded"]);
+
+emit("fileUploaded", () => {
+  console.log("here Emmit");
+});
+
+emitter.on("delete-button", (item) => {
+  console.log("emit delete");
+  emit("deleteButton", item);
+});
+emitter.on("custom-modal-show", (item) => {
+  emit("customOpenItem", item);
+});
+
+emitter.on("file-moved", (data) => {
+  emit("fileMoved", data);
+});
 
 const updateItems = (data) => {
   Object.assign(fetchData, data);
-  emitter.emit('vf-nodes-selected', {});
-  emitter.emit('vf-explorer-update');
+  emitter.emit("vf-nodes-selected", {});
+  emitter.emit("vf-explorer-update");
 };
 
 let controller;
-emitter.on('vf-fetch-abort', () => {
+emitter.on("vf-fetch-abort", () => {
   controller.abort();
   loadingState.value = false;
 });
 
-emitter.on('vf-fetch', ({params, onSuccess = null, onError = null}) => {
-  if (['index', 'search'].includes(params.q)) {
+emitter.on("vf-fetch", ({ params, onSuccess = null, onError = null }) => {
+  if (["index", "search"].includes(params.q)) {
     if (controller) {
       controller.abort();
     }
     loadingState.value = true;
   }
+  const path = params.path;
+
+  emit("customUpdateVariable", path);
 
   controller = new AbortController();
   const signal = controller.signal;
-  ajax(apiUrl.value, {params, signal})
-      .then(data => {
-        adapter.value = data.adapter;
-        if (['index', 'search'].includes(params.q)) {
-          loadingState.value = false;
-        }
-        emitter.emit('vf-modal-close');
-        updateItems(data);
-        onSuccess(data);
-      })
-      .catch((e) => {
-        if (onError) {
-          onError(e);
-        }
-      })
-      .finally(() => {
-      });
+  ajax(apiUrl.value, { params, signal })
+    .then((data) => {
+      adapter.value = data.adapter;
+      if (["index", "search"].includes(params.q)) {
+        loadingState.value = false;
+      }
+      emitter.emit("vf-modal-close");
+      updateItems(data);
+      onSuccess(data);
+    })
+    .catch((e) => {
+      if (onError) {
+        onError(e);
+      }
+    })
+    .finally(() => {});
 });
 
-emitter.on('vf-download', (url) => {
-  document.getElementById('download_frame').src = url;
-  emitter.emit('vf-modal-close');
+emitter.on("vf-download", (url) => {
+  document.getElementById("download_frame").src = url;
+  emitter.emit("vf-modal-close");
 });
 
 onMounted(() => {
-  emitter.emit('vf-fetch', {params: {q: 'index', adapter: (adapter.value)}});
+  emitter.emit("vf-fetch", { params: { q: "index", adapter: adapter.value } });
 });
-
 </script>

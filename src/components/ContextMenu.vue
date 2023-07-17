@@ -102,12 +102,12 @@ const menuItems = {
   //     emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems});
   //   },
   // },
-  rename: {
-    title: () =>  t('Rename'),
-    action: () => {
-      emitter.emit('vf-modal-show', {type:'rename', items: selectedItems});
-    },
-  }
+  // rename: {
+  //   title: () =>  t('Rename'),
+  //   action: () => {
+  //     emitter.emit('vf-modal-show', {type:'rename', items: selectedItems});
+  //   },
+  // }
 };
 
 const run = (item) =>{
@@ -150,7 +150,7 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
       context.items.push(menuItems.preview);
       context.items.push(menuItems.download);
     }
-    context.items.push(menuItems.rename);
+    // context.items.push(menuItems.rename);
 
     // if (target.mime_type == 'application/zip') {
     //   context.items.push(menuItems.unarchive);
