@@ -47,11 +47,6 @@ import VFBreadcrumb from "../components/Breadcrumb.vue";
 import VFContextMenu from "../components/ContextMenu.vue";
 import { useI18n } from "../composables/useI18n.js";
 
-const doSomething = () => {
-  emitter.emit("vf-fetch", { params: { q: "index", adapter: adapter.value } });
-  console.log("here")
-};
-
 defineExpose({
   doSomething,
 });
@@ -94,6 +89,10 @@ provide("storage", useStorage(props.id));
 provide("postData", props.postData);
 provide("adapter", adapter);
 provide("maxFileSize", props.maxFileSize);
+
+// const doSomething = () => {
+  
+// };
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
