@@ -48,8 +48,10 @@ import VFContextMenu from "../components/ContextMenu.vue";
 import { useI18n } from "../composables/useI18n.js";
 
 defineExpose({
-  doSomething,
+  performAction,
 });
+
+let dir_path = ref();
 
 const props = defineProps({
   url: {
@@ -90,9 +92,12 @@ provide("postData", props.postData);
 provide("adapter", adapter);
 provide("maxFileSize", props.maxFileSize);
 
-// const doSomething = () => {
-  
-// };
+function performAction(folder_path) {
+  console.log(folder_path);
+  emitter.emit("vf-fetch", {
+    params: { q: "index", adapter: adapter.value, path: folder_path },
+  });
+}
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
@@ -152,6 +157,9 @@ emitter.on("vf-modal-show", (item) => {
 emitter.on("custom-modal-show", (item) => {
   emit("customUploadItem", item);
 });
+emitter.on("custom-v-f-insert", (item) => {
+  emit("customInsertItem", item);
+});
 
 const emit = defineEmits(["deleteButton", "fileMoved", "fileUploaded"]);
 
@@ -162,9 +170,6 @@ emit("fileUploaded", () => {
 emitter.on("delete-button", (item) => {
   console.log("emit delete");
   emit("deleteButton", item);
-});
-emitter.on("custom-modal-show", (item) => {
-  emit("customOpenItem", item);
 });
 
 emitter.on("file-moved", (data) => {
@@ -190,9 +195,9 @@ emitter.on("vf-fetch", ({ params, onSuccess = null, onError = null }) => {
     }
     loadingState.value = true;
   }
-  const path = params.path;
+  dir_path = params.path;
 
-  emit("customUpdateVariable", path);
+  emit("customUpdateVariable", dir_path);
 
   controller = new AbortController();
   const signal = controller.signal;

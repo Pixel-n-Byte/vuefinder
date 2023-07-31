@@ -66,7 +66,14 @@ const menuItems = {
   preview: {
     title: () =>  t('Preview'),
     action: () => {
+      console.log(selectedItems.value[0])
       emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
+    },
+  },
+  insert: {
+    title: () =>  t('Insert'),
+    action: () => {
+      emitter.emit('custom-v-f-insert', {type:'insert', item: selectedItems.value[0]});
     },
   },
   open: {
@@ -90,24 +97,6 @@ const menuItems = {
       emitter.emit('vf-download', url);
     },
   },
-  // archive: {
-  //   title: () =>  t('Archive'),
-  //   action: () => {
-  //     emitter.emit('vf-modal-show', {type:'archive', items: selectedItems});
-  //   },
-  // },
-  // unarchive: {
-  //   title: () => t('Unarchive'),
-  //   action: () => {
-  //     emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems});
-  //   },
-  // },
-  // rename: {
-  //   title: () =>  t('Rename'),
-  //   action: () => {
-  //     emitter.emit('vf-modal-show', {type:'rename', items: selectedItems});
-  //   },
-  // }
 };
 
 const run = (item) =>{
@@ -148,6 +137,7 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
       context.items.push(menuItems.open);
     } else {
       context.items.push(menuItems.preview);
+      context.items.push(menuItems.insert);
       context.items.push(menuItems.download);
     }
     // context.items.push(menuItems.rename);
