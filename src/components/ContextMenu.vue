@@ -1,7 +1,9 @@
 <template>
-  <ul class="z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none" ref="contextmenu" v-if="context.active" :style="context.positions">
-    <li class="px-2 py-1.5 cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700"
-        v-for="(item) in context.items" :key="item.title" @click="run(item)">
+  <ul
+    class="z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none"
+    ref="contextmenu" v-if="context.active" :style="context.positions">
+    <li class="px-2 py-1.5 cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700" v-for="(item) in context.items"
+      :key="item.title" @click="run(item)">
       <span class="px-1"></span>
       <span>{{ item.title() }}</span>
     </li>
@@ -15,14 +17,14 @@ export default {
 </script>
 
 <script setup>
-import {inject, nextTick, reactive, ref} from 'vue';
+import { inject, nextTick, reactive, ref } from 'vue';
 import buildURLQuery from '../utils/buildURLQuery.js';
-import {useApiUrl} from '../composables/useApiUrl.js';
+import { useApiUrl } from '../composables/useApiUrl.js';
 
 const emitter = inject('emitter');
 const contextmenu = ref(null);
 
-const {apiUrl} = useApiUrl();
+const { apiUrl } = useApiUrl();
 
 const props = defineProps({
   current: Object
@@ -37,80 +39,84 @@ const context = reactive({
   }
 });
 
+
+
+
 const selectedItems = ref([]);
 
 emitter.on('vf-context-selected', (items) => {
   selectedItems.value = items;
 })
-const {t} = inject('i18n')
+const { t } = inject('i18n')
 
 const menuItems = {
   newfolder: {
     title: () => t('New Folder'),
     action: () => {
-      emitter.emit('vf-modal-show', {type:'new-folder'});
+      emitter.emit('vf-modal-show', { type: 'new-folder' });
     },
   },
   delete: {
     title: () => t('Delete'),
     action: () => {
-      emitter.emit('vf-modal-show', {type:'delete', items: selectedItems});
+      emitter.emit('vf-modal-show', { type: 'delete', items: selectedItems });
     },
   },
   refresh: {
-    title: () =>  t('Refresh'),
+    title: () => t('Refresh'),
     action: () => {
-      emitter.emit('vf-fetch',{params:{q: 'index', adapter: props.current.adapter, path: props.current.dirname}} );
+      emitter.emit('vf-fetch', { params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname } });
     },
   },
   preview: {
-    title: () =>  t('Preview'),
+    title: () => t('Preview'),
     action: () => {
       console.log(selectedItems.value[0])
-      emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
+      emitter.emit('vf-modal-show', { type: 'preview', adapter: props.current.adapter, item: selectedItems.value[0] });
     },
   },
   insert: {
-    title: () =>  t('Insert'),
+    title: () => t('Insert'),
     action: () => {
-      emitter.emit('custom-v-f-insert', {type:'insert', item: selectedItems.value[0]});
+      emitter.emit('custom-v-f-insert', { type: 'insert', item: selectedItems.value[0] });
     },
   },
   open: {
-    title: () =>  t('Open'),
+    title: () => t('Open'),
     action: () => {
       emitter.emit('vf-search-exit');
-      emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path:selectedItems.value[0].path}});
+      emitter.emit('vf-fetch', { params: { q: 'index', adapter: props.current.adapter, path: selectedItems.value[0].path } });
     },
   },
   openDir: {
-    title: () =>  t('Open containing folder'),
+    title: () => t('Open containing folder'),
     action: () => {
       emitter.emit('vf-search-exit');
-      emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path: (selectedItems.value[0].dir)}});
+      emitter.emit('vf-fetch', { params: { q: 'index', adapter: props.current.adapter, path: (selectedItems.value[0].dir) } });
     },
   },
   download: {
-    title: () =>  t('Download'),
+    title: () => t('Download'),
     action: () => {
-      const url = apiUrl.value + '?' + buildURLQuery({q:'download', adapter: props.current.adapter, path: selectedItems.value[0].path});
+      const url = apiUrl.value + '?' + buildURLQuery({ q: 'download', adapter: props.current.adapter, path: selectedItems.value[0].path });
       emitter.emit('vf-download', url);
     },
   },
 };
 
-const run = (item) =>{
+const run = (item) => {
   emitter.emit('vf-contextmenu-hide');
   item.action();
 };
 
+
 const searchQuery = ref('');
 
-emitter.on('vf-search-query', ({newQuery}) => {
+emitter.on('vf-search-query', ({ newQuery }) => {
   searchQuery.value = newQuery;
 });
 
-emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
+emitter.on('vf-contextmenu-show', ({ event, area, items, target = null }) => {
   context.items = [];
 
   if (searchQuery.value) {
@@ -135,8 +141,9 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
   } else {
     if (target.type == 'dir') {
       context.items.push(menuItems.open);
-    } else {
-      context.items.push(menuItems.preview);
+    } else if (target.type == 'file' && props.current.type == 'regular') {
+      context.items.push(menuItems.download);
+    } else if (target.type == 'file' && props.current.type == 'standalone') {
       context.items.push(menuItems.insert);
       context.items.push(menuItems.download);
     }

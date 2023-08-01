@@ -1,113 +1,57 @@
 <template>
-  <div
-    class="border-neutral-300 flex justify-end items-center py-1 text-sm relative"
-  >
+  <div v-if="props.data.type != 'standalone'"
+    class="border-neutral-300 flex justify-end items-center py-1 text-sm relative">
     <div class="flex text-center" v-if="!searchQuery.length">
-      <div
-        class="mx-1.5"
-        :aria-label="t('New Folder')"
-        data-microtip-position="bottom-right"
-        role="tooltip"
-        @click="
-          emitter.emit('vf-modal-show', {
-            type: 'new-folder',
-            items: selectedItems,
-          })
-        "
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
+      <div class="mx-1.5" :aria-label="t('New Folder')" data-microtip-position="bottom-right" role="tooltip" @click="
+        emitter.emit('vf-modal-show', {
+          type: 'new-folder',
+          items: selectedItems,
+        })
+        ">
+        <svg xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="none"
-          stroke-width="1.5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
-          />
+          fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
         </svg>
       </div>
 
-      <div
-        class="mx-1.5"
-        :aria-label="t('Delete')"
-        data-microtip-position="bottom"
-        role="tooltip"
-        @click="!selectedItems.length || emitter.emit('delete-button')"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          :class="
-            selectedItems.length
-              ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300'
-              : 'stroke-gray-200  dark:stroke-gray-700'
-          "
-          class="h-6 w-6 md:h-8 md:w-8 m-auto"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="none"
-          stroke-width="1.5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-          />
+      <div class="mx-1.5" :aria-label="t('Delete')" data-microtip-position="bottom" role="tooltip"
+        @click="!selectedItems.length || emitter.emit('vf-modal-show', { type: 'delete', items: selectedItems })">
+        <svg xmlns="http://www.w3.org/2000/svg" :class="selectedItems.length
+          ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300'
+          : 'stroke-gray-200  dark:stroke-gray-700'
+          " class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
         </svg>
       </div>
 
-      <div
-        class="mx-1.5 cusom-upload-button-div absolute"
-        :aria-label="t('Upload')"
-        data-microtip-position="bottom"
+      <div class="mx-1.5 cusom-upload-button-div absolute" :aria-label="t('Upload')" data-microtip-position="bottom"
         @click="
           emitter.emit('custom-modal-show', {
             type: 'upload',
             items: selectedItems,
           })
-        "
-      >
+          ">
         <a type="button" class="custom-upload-button">Upload</a>
       </div>
 
-      <div
-        class="mx-1.5"
-        v-if="
-          selectedItems.length == 1 &&
-          selectedItems[0].mime_type == 'application/zip'
-        "
-        :aria-label="t('Unrchive')"
-        data-microtip-position="bottom"
-        role="tooltip"
-        @click="
-          !selectedItems.length ||
-            emitter.emit('vf-modal-show', {
-              type: 'unarchive',
-              items: selectedItems,
-            })
-        "
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          :class="
-            selectedItems.length
-              ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300'
-              : 'stroke-gray-200  dark:stroke-gray-700'
-          "
-          class="h-6 w-6 md:h-8 md:w-8 m-auto"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="none"
-          stroke-width="1.5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-          />
+      <div class="mx-1.5" v-if="selectedItems.length == 1 &&
+        selectedItems[0].mime_type == 'application/zip'
+        " :aria-label="t('Unrchive')" data-microtip-position="bottom" role="tooltip" @click="
+    !selectedItems.length ||
+    emitter.emit('vf-modal-show', {
+      type: 'unarchive',
+      items: selectedItems,
+    })
+    ">
+        <svg xmlns="http://www.w3.org/2000/svg" :class="selectedItems.length
+          ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300'
+          : 'stroke-gray-200  dark:stroke-gray-700'
+          " class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
         </svg>
       </div>
     </div>
@@ -119,117 +63,50 @@
           searchQuery
         }}</span>
       </div>
-      <svg
-        class="animate-spin p-0.5 h-5 w-5 text-white ml-auto"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        v-if="isLoading()"
-      >
-        <circle
-          class="opacity-25 stroke-blue-900 dark:stroke-blue-100"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          stroke-width="4"
-        ></circle>
-        <path
-          class="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        ></path>
+      <svg class="animate-spin p-0.5 h-5 w-5 text-white ml-auto" xmlns="http://www.w3.org/2000/svg" fill="none"
+        viewBox="0 0 24 24" v-if="isLoading()">
+        <circle class="opacity-25 stroke-blue-900 dark:stroke-blue-100" cx="12" cy="12" r="10" stroke="currentColor"
+          stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+        </path>
       </svg>
     </div>
 
     <div class="flex text-center items-center justify-end">
-      <div
-        class="mx-1.5"
-        :aria-label="t('Dark Mode')"
-        data-microtip-position="bottom"
-        role="tooltip"
-      >
-        <svg
-          @click="emitter.emit('vf-darkMode-toggle')"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke-linecap="round"
+      <div class="mx-1.5" :aria-label="t('Dark Mode')" data-microtip-position="bottom" role="tooltip">
+        <svg @click="emitter.emit('vf-darkMode-toggle')" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round"
-          class="h-6 w-6 m-auto cursor-pointer stroke-sky-500 fill-sky-100 hover:stroke-sky-600 dark:stroke-gray-400 dark:fill-gray-400/20 dark:hover:stroke-gray-300"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-          />
+          class="h-6 w-6 m-auto cursor-pointer stroke-sky-500 fill-sky-100 hover:stroke-sky-600 dark:stroke-gray-400 dark:fill-gray-400/20 dark:hover:stroke-gray-300">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
         </svg>
       </div>
 
-      <div
-        class="mx-1.5"
-        :aria-label="t('Toggle Full Screen')"
-        data-microtip-position="bottom-left"
-        role="tooltip"
-        @click="setFullScreen"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
+      <div class="mx-1.5" :aria-label="t('Toggle Full Screen')" data-microtip-position="bottom-left" role="tooltip"
+        @click="setFullScreen">
+        <svg xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="none"
-          stroke-width="1.5"
-        >
-          <path
-            v-if="fullScreen"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
-          />
-          <path
-            v-else
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
-          />
+          fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+          <path v-if="fullScreen" stroke-linecap="round" stroke-linejoin="round"
+            d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
+          <path v-else stroke-linecap="round" stroke-linejoin="round"
+            d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
         </svg>
       </div>
 
-      <div
-        class="mx-1.5"
-        :aria-label="t('Change View')"
-        data-microtip-position="bottom-left"
-        role="tooltip"
-        @click="
-          searchQuery.length ||
-            emitter.emit('vf-view-toggle', view == 'list' ? 'grid' : 'list')
-        "
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          :class="
-            !searchQuery.length
-              ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300'
-              : 'stroke-gray-200  dark:stroke-gray-700'
-          "
-          class="h-6 w-6 md:h-8 md:w-8 m-auto"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="none"
-          stroke-width="1.5"
-        >
-          <path
-            v-if="view == 'grid'"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
-          />
-          <path
-            v-if="view == 'list'"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"
-          />
+      <div class="mx-1.5" :aria-label="t('Change View')" data-microtip-position="bottom-left" role="tooltip" @click="
+        searchQuery.length ||
+        emitter.emit('vf-view-toggle', view == 'list' ? 'grid' : 'list')
+        ">
+        <svg xmlns="http://www.w3.org/2000/svg" :class="!searchQuery.length
+          ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300'
+          : 'stroke-gray-200  dark:stroke-gray-700'
+          " class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+          <path v-if="view == 'grid'" stroke-linecap="round" stroke-linejoin="round"
+            d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+          <path v-if="view == 'list'" stroke-linecap="round" stroke-linejoin="round"
+            d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
         </svg>
       </div>
     </div>

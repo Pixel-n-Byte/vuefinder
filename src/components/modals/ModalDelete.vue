@@ -129,9 +129,6 @@ const props = defineProps({
 const items = ref(props.selection.items);
 const message = ref("");
 
-console.log(adapter.value)
-console.log(props.current.dirname)
-
 const remove = () => {
   if (items.value.length) {
     emitter.emit("vf-fetch", {
@@ -144,10 +141,12 @@ const remove = () => {
         ),
       },
       onSuccess: () => {
+        console.log('success deleting')
         emitter.emit("vf-toast-push", { label: t("Files deleted.") });
         emitter.emit("delete-button", { files: items.value });
       },
       onError: (e) => {
+        console.log('unsuccessful')
         message.value = t(e.message);
       },
     });

@@ -1,28 +1,18 @@
 <template>
   <div class="vuefinder">
-    <div :class="darkMode ? 'dark' : ''">
-      <div
-        :class="
-          fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'
-        "
-        :style="!fullScreen ? 'max-height: ' + maxHeight : ''"
-        class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
-        @mousedown="emitter.emit('vf-contextmenu-hide')"
-        @touchstart="emitter.emit('vf-contextmenu-hide')"
-      >
+    <div :class="`${darkMode ? 'dark' : ''} vuefinder-custom-div`">
+      <div :class="fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'
+        " :style="!fullScreen ? 'max-height: ' + maxHeight : ''"
+        class="custom-vuefinder-explorer-container border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
+        @mousedown="emitter.emit('vf-contextmenu-hide')" @touchstart="emitter.emit('vf-contextmenu-hide')">
         <v-f-toolbar :data="fetchData" />
         <v-f-breadcrumb :data="fetchData" />
         <v-f-explorer :view="view" :data="fetchData" />
         <v-f-statusbar :data="fetchData" />
       </div>
 
-      <component
-        v-if="modal.active"
-        :is="'v-f-modal-' + modal.type"
-        :selection="modal.data"
-        :current="fetchData"
-      />
-      <v-f-context-menu :current="fetchData" />
+      <component v-if="modal.active" :is="'v-f-modal-' + modal.type" :selection="modal.data" :current="fetchData" />
+      <v-f-context-menu :current="fetchData" testProp="hi_there" />
       <iframe id="download_frame" style="display: none"></iframe>
     </div>
   </div>
@@ -81,6 +71,14 @@ const props = defineProps({
     type: Object,
     default: {},
   },
+  vueFinderType: {
+    type: String,
+    default: "regular",
+  },
+  vueFinderUploadUrl: {
+    type: String,
+    default: "",
+  }
 });
 const emitter = mitt();
 const { setStore, getStore } = useStorage(props.id);
@@ -92,12 +90,7 @@ provide("postData", props.postData);
 provide("adapter", adapter);
 provide("maxFileSize", props.maxFileSize);
 
-function performAction(folder_path) {
-  console.log(folder_path);
-  emitter.emit("vf-fetch", {
-    params: { q: "index", adapter: adapter.value, path: folder_path },
-  });
-}
+
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
@@ -112,6 +105,8 @@ const fetchData = reactive({
   storages: [],
   dirname: ".",
   files: [],
+  type: props.vueFinderType,
+  url: props.vueFinderUploadUrl
 });
 
 // View Management
@@ -122,6 +117,10 @@ emitter.on("vf-darkMode-toggle", () => {
   darkMode.value = !darkMode.value;
   setStore("darkMode", darkMode.value);
 });
+
+function performAction() {
+  emitter.emit("vf-fetch", { params: { q: "index", adapter: adapter.value } });
+}
 
 const loadingState = ref(false);
 
@@ -155,7 +154,7 @@ emitter.on("vf-modal-show", (item) => {
   modal.data = item;
 });
 emitter.on("custom-modal-show", (item) => {
-  emit("customUploadItem", item);
+  emit("customUploadItem", item, fetchData);
 });
 emitter.on("custom-v-f-insert", (item) => {
   emit("customInsertItem", item);
@@ -164,13 +163,13 @@ emitter.on("custom-v-f-insert", (item) => {
 const emit = defineEmits(["deleteButton", "fileMoved", "fileUploaded"]);
 
 emit("fileUploaded", () => {
-  console.log("here Emmit");
+  console.log("here Emmit uploaded");
 });
 
-emitter.on("delete-button", (item) => {
-  console.log("emit delete");
-  emit("deleteButton", item);
-});
+// emitter.on("delete-button", (item) => {
+//   console.log('here delete button why', item)
+//   emitter.emit('vf-modal-show', { type: 'delete', items: selectedItems });
+// });
 
 emitter.on("file-moved", (data) => {
   emit("fileMoved", data);
@@ -216,7 +215,7 @@ emitter.on("vf-fetch", ({ params, onSuccess = null, onError = null }) => {
         onError(e);
       }
     })
-    .finally(() => {});
+    .finally(() => { });
 });
 
 emitter.on("vf-download", (url) => {
