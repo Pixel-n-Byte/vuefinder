@@ -1,6 +1,6 @@
 {
   "name": "@pixelnbyte/vuefinder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Vuefinder is a file manager component for vuejs.",
   "type": "module",
   "files": [
