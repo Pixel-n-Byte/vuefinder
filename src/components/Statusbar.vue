@@ -1,5 +1,6 @@
 <template>
-  <div class="p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none">
+  <div 
+    class="p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none">
     <div class="flex leading-5 items-center">
       <!-- <div class="mx-2" :aria-label="t('Storage')" data-microtip-position="top-right" role="tooltip">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
@@ -12,10 +13,10 @@
         </option>
       </select> -->
 
-     <div class="ml-3">
-       <span v-if="searchQuery.length">{{ data.files.length }} items found. </span>
-       <span class="ml-1">{{ selectedItemCount > 0 ? selectedItemCount + ' ' + t('item(s) selected.') : '' }}</span>
-     </div>
+      <div class="ml-3">
+        <span v-if="searchQuery.length">{{ data.files.length }} items found. </span>
+        <span class="ml-1">{{ selectedItemCount > 0 ? selectedItemCount + ' ' + t('item(s) selected.') : '' }}</span>
+      </div>
     </div>
     <!-- <div class="flex leading-5 items-center">
       <select v-model="locale" @change="changeLocale($event.target.value)"
@@ -45,25 +46,26 @@ export default {
 </script>
 
 <script setup>
-import {inject, ref} from 'vue';
-import {version} from './../../package.json';
+import { inject, ref } from 'vue';
+import { version } from './../../package.json';
 
 const props = defineProps({
   data: Object,
+  
 });
 
 const emitter = inject('emitter');
-const {getStore, setStore} = inject('storage');
+const { getStore, setStore } = inject('storage');
 const selectedItemCount = ref(0);
 const adapter = inject('adapter');
 
-const {t, changeLocale} = inject('i18n');
+const { t, changeLocale } = inject('i18n');
 
 const locale = ref(getStore('locale', ''))
 
 const handleStorageSelect = () => {
   emitter.emit('vf-search-exit');
-  emitter.emit('vf-fetch', {params:{q: 'index', adapter: adapter.value}});
+  emitter.emit('vf-fetch', { params: { q: 'index', adapter: adapter.value } });
   setStore('adapter', adapter.value)
 };
 
@@ -73,7 +75,7 @@ emitter.on('vf-nodes-selected', (items) => {
 
 const searchQuery = ref('');
 
-emitter.on('vf-search-query', ({newQuery}) => {
+emitter.on('vf-search-query', ({ newQuery }) => {
   searchQuery.value = newQuery;
 });
 

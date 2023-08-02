@@ -1,5 +1,6 @@
 <template>
   <div
+  v-if="props.type !== 'standalone'"
     class="custom-file-picker-search-bar flex p-2 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-xs"
   >
     <span
@@ -208,6 +209,7 @@ const searchInput = ref(null);
 
 const props = defineProps({
   data: Object,
+  type: String
 });
 
 const { t } = inject("i18n");
