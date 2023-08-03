@@ -80,6 +80,8 @@
         </div>
       </div>
 
+
+
       <div draggable="true" v-if="view == 'list' && !searchQuery.length" @dblclick="openItem(item)"
         @touchstart="delayedOpenItem($event)" @touchend="clearTimeOut()" @contextmenu.prevent="
           emitter.emit('vf-contextmenu-show', {
@@ -184,6 +186,10 @@ const props = defineProps({
   type: String
 });
 
+function testDouble() {
+  console.log('standalone double')
+}
+
 const emitter = inject("emitter");
 const { setStore, getStore } = inject("storage");
 const adapter = inject("adapter");
@@ -285,12 +291,14 @@ const openItem = (item) => {
     emitter.emit("vf-fetch", {
       params: { q: "index", adapter: props.data.adapter, path: item.path },
     });
-  } else {
+  } else if (item.type !== "dir" && props.type !== 'standalone') {
     emitter.emit("custom-modal-show", {
       type: "preview",
       adapter: props.data.adapter,
       item,
     });
+  } else if (item.type !== "dir" && props.type === 'standalone') {
+    emitter.emit('custom-v-f-insert', { type: 'insert', item: item });
   }
 };
 
