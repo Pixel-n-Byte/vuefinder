@@ -4,6 +4,7 @@
   background-color: transparent !important;
   display: flex;
   grid-gap: 40px;
+  position: relative;
 }
 .custom-layout-pop-window {
   width: 75%;
@@ -18,7 +19,6 @@
 .custom-layout-button-slot {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 20%;
 }
 .search-terms-div {
@@ -83,7 +83,8 @@
 }
 .custom-layout-button-slot:has(.new-folder-action) {
   height: 10% !important;
-  flex-direction: row !important;
+  flex-direction: column;
+  grid-gap: 20px;
 }
 .custom-new-folder-popup {
   height: 100%;

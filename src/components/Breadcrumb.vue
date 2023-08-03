@@ -208,6 +208,7 @@ const searchInput = ref(null);
 
 const props = defineProps({
   data: Object,
+  type: String
 });
 
 const { t } = inject("i18n");

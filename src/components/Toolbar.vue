@@ -1,13 +1,13 @@
 <template>
-  <div v-if="props.data.type != 'standalone'"
-    class="border-neutral-300 flex justify-end items-center py-1 text-sm relative">
+  <div class="border-neutral-300 flex justify-end items-center py-1 text-sm relative">
     <div class="flex text-center" v-if="!searchQuery.length">
-      <div class="mx-1.5" :aria-label="t('New Folder')" data-microtip-position="bottom-right" role="tooltip" @click="
-        emitter.emit('vf-modal-show', {
-          type: 'new-folder',
-          items: selectedItems,
-        })
-        ">
+      <div v-if="props.type !== 'standalone'" class="mx-1.5" :aria-label="t('New Folder')"
+        data-microtip-position="bottom-right" role="tooltip" @click="
+          emitter.emit('vf-modal-show', {
+            type: 'new-folder',
+            items: selectedItems,
+          })
+          ">
         <svg xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300"
           fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -16,7 +16,8 @@
         </svg>
       </div>
 
-      <div class="mx-1.5" :aria-label="t('Delete')" data-microtip-position="bottom" role="tooltip"
+      <div v-if="props.type !== 'standalone'" class="mx-1.5" :aria-label="t('Delete')" data-microtip-position="bottom"
+        role="tooltip"
         @click="!selectedItems.length || emitter.emit('vf-modal-show', { type: 'delete', items: selectedItems })">
         <svg xmlns="http://www.w3.org/2000/svg" :class="selectedItems.length
           ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300'
@@ -27,14 +28,15 @@
         </svg>
       </div>
 
-      <div class="mx-1.5 cusom-upload-button-div absolute" :aria-label="t('Upload')" data-microtip-position="bottom"
-        @click="
+      <div
+        :class="`mx-1.5 absolute ${props.type == 'standalone' ? 'standalone-upload-button-div' : 'custom-upload-button-div'}`"
+        :aria-label="t('Upload')" data-microtip-position="bottom" @click="
           emitter.emit('custom-modal-show', {
             type: 'upload',
             items: selectedItems,
           })
           ">
-        <a type="button" class="custom-upload-button">Upload</a>
+        <a type="button" :class="`${props.type == 'standalone' ? 'standalone-upload-button': 'custom-upload-button'}`">Upload</a>
       </div>
 
       <div class="mx-1.5" v-if="selectedItems.length == 1 &&
@@ -95,10 +97,11 @@
         </svg>
       </div>
 
-      <div class="mx-1.5" :aria-label="t('Change View')" data-microtip-position="bottom-left" role="tooltip" @click="
-        searchQuery.length ||
-        emitter.emit('vf-view-toggle', view == 'list' ? 'grid' : 'list')
-        ">
+      <div v-if="props.type !== 'standalone'" class="mx-1.5" :aria-label="t('Change View')"
+        data-microtip-position="bottom-left" role="tooltip" @click="
+          searchQuery.length ||
+          emitter.emit('vf-view-toggle', view == 'list' ? 'grid' : 'list')
+          ">
         <svg xmlns="http://www.w3.org/2000/svg" :class="!searchQuery.length
           ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300'
           : 'stroke-gray-200  dark:stroke-gray-700'
@@ -136,6 +139,7 @@ const fullScreen = ref(getStore("full-screen", false));
 
 const props = defineProps({
   data: Object,
+  type: String
 });
 
 const searchQuery = ref("");
