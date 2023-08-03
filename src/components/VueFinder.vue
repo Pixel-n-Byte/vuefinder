@@ -5,9 +5,9 @@
         " :style="!fullScreen ? 'max-height: ' + maxHeight : ''"
         class="custom-vuefinder-explorer-container border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
         @mousedown="emitter.emit('vf-contextmenu-hide')" @touchstart="emitter.emit('vf-contextmenu-hide')">
-        <v-f-toolbar :data="fetchData" />
-        <v-f-breadcrumb :data="fetchData" />
-        <v-f-explorer :view="view" :data="fetchData" />
+        <v-f-toolbar :data="fetchData" :type="props.vueFinderType"/>
+        <v-f-breadcrumb :data="fetchData" :type="props.vueFinderType" />
+        <v-f-explorer :view="view" :data="fetchData" :type="props.vueFinderType" />
         <v-f-statusbar :data="fetchData" />
       </div>
 
