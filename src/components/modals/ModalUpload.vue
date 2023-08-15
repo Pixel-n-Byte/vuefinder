@@ -204,10 +204,6 @@ onMounted(() => {
           path: props.current.dirname,
         })
       ),
-    // filters : [
-    // 	{title : "Image files", extensions : "jpg,gif,png,jpeg"},
-    // 	{title : "Zip files", extensions : "zip"}
-    // ],
     headers: {
       ...(csrf && { "X-CSRF-Token": csrf }),
     },

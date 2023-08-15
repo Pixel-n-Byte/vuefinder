@@ -5,7 +5,7 @@
         " :style="!fullScreen ? 'max-height: ' + maxHeight : ''"
         class="custom-vuefinder-explorer-container border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
         @mousedown="emitter.emit('vf-contextmenu-hide')" @touchstart="emitter.emit('vf-contextmenu-hide')">
-        <v-f-toolbar :data="fetchData" :type="props.vueFinderType"/>
+        <v-f-toolbar :data="fetchData" :type="props.vueFinderType" />
         <v-f-breadcrumb :data="fetchData" :type="props.vueFinderType" />
         <v-f-explorer :view="view" :data="fetchData" :type="props.vueFinderType" />
         <v-f-statusbar :data="fetchData" />
@@ -76,6 +76,18 @@ const props = defineProps({
     default: "regular",
   },
   vueFinderUploadUrl: {
+    type: String,
+    default: "",
+  },
+  vueFinderGetInfoUrl: {
+    type: String,
+    default: "",
+  },
+  vueFinderDeleteUrl: {
+    type: String,
+    default: "",
+  },
+  vueFinderMoveUrl: {
     type: String,
     default: "",
   }
@@ -159,17 +171,15 @@ emitter.on("custom-modal-show", (item) => {
 emitter.on("custom-v-f-insert", (item) => {
   emit("customInsertItem", item);
 });
+emitter.on("custom-v-f-delete", (items) => {
+  emit("customDeleteItem", items);
+});
 
-const emit = defineEmits(["deleteButton", "fileMoved", "fileUploaded"]);
+const emit = defineEmits(["deleteButton", "fileMoved", "fileUploaded", "customUploadItem", "customInsertItem", 'customDeleteItem']);
 
 emit("fileUploaded", () => {
   console.log("here Emmit uploaded");
 });
-
-// emitter.on("delete-button", (item) => {
-//   console.log('here delete button why', item)
-//   emitter.emit('vf-modal-show', { type: 'delete', items: selectedItems });
-// });
 
 emitter.on("file-moved", (data) => {
   emit("fileMoved", data);
