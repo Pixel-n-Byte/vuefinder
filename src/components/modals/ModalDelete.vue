@@ -87,27 +87,41 @@ const items = ref(props.selection.items);
 const message = ref("");
 
 const remove = () => {
+  let result_media = []
+  let result_folders = []
+
   if (items.value.length) {
-    emitter.emit("custom-v-f-delete", {
-      items: items.value
-    });
-    // emitter.emit("vf-fetch", {
-    //   params: {
-    //     q: "delete",
-    //     adapter: adapter.value,
-    //     path: props.current.dirname,
-    //     items: JSON.stringify(
-    //       items.value.map(({ path, type }) => ({ path, type }))
-    //     ),
-    //   },
-    //   onSuccess: () => {
-    //     emitter.emit("vf-toast-push", { label: t("Files deleted.") });
-    //     emitter.emit("delete-button", { files: items.value });
-    //   },
-    //   onError: (e) => {
-    //     message.value = t(e.message);
-    //   },
-    // });
+    items.value.forEach((item) => {
+      if (item.type === 'file') {
+        result_media.push(item)
+      } else if (item.type === 'dir') {
+        result_folders.push(item)
+      }
+    })
+    if (result_media.length > 0) {
+      emitter.emit("custom-v-f-delete", {
+        items: result_media
+      });
+    }
+    if (result_folders.length > 0) {
+      emitter.emit("vf-fetch", {
+        params: {
+          q: "delete",
+          adapter: adapter.value,
+          path: props.current.dirname,
+          items: JSON.stringify(
+            result_folders.map(({ path, type }) => ({ path, type }))
+          ),
+        },
+        onSuccess: () => {
+          emitter.emit("vf-toast-push", { label: t("Files deleted.") });
+          emitter.emit("delete-button", { files: result_folders });
+        },
+        onError: (e) => {
+          message.value = t(e.message);
+        },
+      });
+    }
   }
 };
 </script>
