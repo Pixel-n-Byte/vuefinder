@@ -3646,7 +3646,7 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
     }), ot(() => {
       v.value = o.movedItems;
     }, {
-      immediate: !0
+      immediate: !1
     }), (_, P) => (w(), I("div", pl, [
       h("div", {
         class: ce(`${$.value ? "dark" : ""} vuefinder-custom-div`)
@@ -6664,7 +6664,6 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     const e = r, s = z("emitter"), { t: o } = z("i18n");
     z("storage");
     const a = z("adapter");
-    L(e.movePromptProp);
     let n = L(e.movedItemsProp);
     const d = L(e.selection.items.from), p = L("");
     let l = [];
@@ -6682,19 +6681,19 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         });
       }
     }, g = (b) => {
-      s.emit("vf-fetch", {
+      console.log(b), s.emit("vf-fetch", {
         params: {
           q: "move",
           adapter: a.value,
           path: e.current.dirname,
-          items: JSON.stringify(l.map(({ path: S, type: k }) => ({ path: S, type: k }))),
+          items: JSON.stringify(b.map(({ path: S, type: k }) => ({ path: S, type: k }))),
           item: e.selection.items.to.path
         },
         onSuccess: () => {
           s.emit("file-moved", {
             from: e.current.dirname,
             to: e.selection.items.to.path,
-            files: l.map(({ path: S, type: k }) => ({ path: S, type: k }))
+            files: b.map(({ path: S, type: k }) => ({ path: S, type: k }))
           }), s.emit("vf-toast-push", { label: o("Files moved.", e.selection.items.to.name) });
         },
         onError: (S) => {

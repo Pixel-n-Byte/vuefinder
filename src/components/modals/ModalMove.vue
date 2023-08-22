@@ -70,7 +70,6 @@ const emitter = inject('emitter');
 const { t } = inject('i18n');
 const { getStore } = inject('storage');
 const adapter = inject('adapter');
-let movePromptValue = ref(props.movePromptProp)
 let movedItemsValue = ref(props.movedItemsProp)
 
 const props = defineProps({
@@ -104,19 +103,20 @@ const move = () => {
   }
 };
 const moveLocalItems = (moved_items) => {
+  console.log(moved_items)
   emitter.emit('vf-fetch', {
     params: {
       q: 'move',
       adapter: adapter.value,
       path: props.current.dirname,
-      items: JSON.stringify(resulting_items.map(({ path, type }) => ({ path, type }))),
+      items: JSON.stringify(moved_items.map(({ path, type }) => ({ path, type }))),
       item: props.selection.items.to.path
     },
     onSuccess: () => {
       emitter.emit('file-moved', {
         from: props.current.dirname,
         to: props.selection.items.to.path,
-        files: resulting_items.map(({ path, type }) => ({ path, type }))
+        files: moved_items.map(({ path, type }) => ({ path, type }))
       });
       emitter.emit('vf-toast-push', { label: t('Files moved.', props.selection.items.to.name) });
     },

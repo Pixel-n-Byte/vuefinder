@@ -255,6 +255,6 @@ onMounted(() => {
 watch(() => {
   movedItemsPropValue.value = props.movedItems;
 }, {
-  immediate: true
+  immediate: false
 })
 </script>
