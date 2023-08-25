@@ -5,13 +5,16 @@
         " :style="!fullScreen ? 'max-height: ' + maxHeight : ''"
         class="custom-vuefinder-explorer-container border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
         @mousedown="emitter.emit('vf-contextmenu-hide')" @touchstart="emitter.emit('vf-contextmenu-hide')">
-        <v-f-toolbar :data="fetchData" :type="props.vueFinderType"/>
+        <v-f-toolbar :data="fetchData" :type="props.vueFinderType" />
         <v-f-breadcrumb :data="fetchData" :type="props.vueFinderType" />
         <v-f-explorer :view="view" :data="fetchData" :type="props.vueFinderType" />
         <v-f-statusbar :data="fetchData" />
       </div>
 
-      <component v-if="modal.active" :is="'v-f-modal-' + modal.type" :selection="modal.data" :current="fetchData" />
+      <!-- <component v-if="modal.active" :is="'v-f-modal-' + modal.type" :selection="modal.data" :current="fetchData"
+        :movePromptProp="movePropValue" :movedItemsProp="movedItemsPropValue" /> -->
+      <component v-if="modal.active" :is="'v-f-modal-' + modal.type" :selection="modal.data" :current="fetchData"
+        :movedItemsProp="movedItemsPropValue" />
       <v-f-context-menu :current="fetchData" testProp="hi_there" />
       <iframe id="download_frame" style="display: none"></iframe>
     </div>
@@ -25,7 +28,7 @@ export default {
 </script>
 
 <script setup>
-import { defineProps, onMounted, provide, reactive, ref } from "vue";
+import { defineProps, onMounted, provide, reactive, ref, watch } from "vue";
 import ajax from "../utils/ajax.js";
 import mitt from "mitt";
 import { useStorage } from "../composables/useStorage.js";
@@ -78,11 +81,32 @@ const props = defineProps({
   vueFinderUploadUrl: {
     type: String,
     default: "",
+  },
+  vueFinderGetInfoUrl: {
+    type: String,
+    default: "",
+  },
+  vueFinderDeleteUrl: {
+    type: String,
+    default: "",
+  },
+  vueFinderMoveUrl: {
+    type: String,
+    default: "",
+  },
+  movePrompt: {
+    type: Boolean,
+    default: false,
+  },
+  movedItems: {
+    default: null
   }
 });
 const emitter = mitt();
 const { setStore, getStore } = useStorage(props.id);
 const adapter = ref(getStore("adapter"));
+let movePropValue = ref(props.movePrompt)
+let movedItemsPropValue = ref(props.movedItems)
 
 provide("emitter", emitter);
 provide("storage", useStorage(props.id));
@@ -159,17 +183,18 @@ emitter.on("custom-modal-show", (item) => {
 emitter.on("custom-v-f-insert", (item) => {
   emit("customInsertItem", item);
 });
+emitter.on("custom-v-f-delete", (items) => {
+  emit("customDeleteItem", items);
+});
+emitter.on("custom-v-f-move", (items) => {
+  emit("customMoveItem", items);
+});
 
-const emit = defineEmits(["deleteButton", "fileMoved", "fileUploaded"]);
+const emit = defineEmits(["deleteButton", "fileMoved", "fileUploaded", "customUploadItem", "customInsertItem", 'customDeleteItem', 'customMoveItem']);
 
 emit("fileUploaded", () => {
   console.log("here Emmit uploaded");
 });
-
-// emitter.on("delete-button", (item) => {
-//   console.log('here delete button why', item)
-//   emitter.emit('vf-modal-show', { type: 'delete', items: selectedItems });
-// });
 
 emitter.on("file-moved", (data) => {
   emit("fileMoved", data);
@@ -226,4 +251,10 @@ emitter.on("vf-download", (url) => {
 onMounted(() => {
   emitter.emit("vf-fetch", { params: { q: "index", adapter: adapter.value } });
 });
+
+watch(() => {
+  movedItemsPropValue.value = props.movedItems;
+}, {
+  immediate: false
+})
 </script>
