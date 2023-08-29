@@ -3679,8 +3679,9 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
           key: 0,
           selection: T.data,
           current: k,
-          movedItemsProp: D(v)
-        }, null, 8, ["selection", "current", "movedItemsProp"])) : Y("", !0),
+          movedItemsProp: D(v),
+          modalType: o.vueFinderType
+        }, null, 8, ["selection", "current", "movedItemsProp", "modalType"])) : Y("", !0),
         Me(ul, {
           current: k,
           testProp: "hi_there"
@@ -3689,40 +3690,49 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
       ], 2)
     ]));
   }
-}), bl = /* @__PURE__ */ h("div", { class: "fixed inset-0 bg-gray-500 dark:bg-gray-600 dark:bg-opacity-75 bg-opacity-75 transition-opacity custom-upload-background" }, null, -1), yl = { class: "fixed z-10 inset-0 overflow-hidden" }, Sl = { class: "custom-popup-layout transition-all" }, wl = { class: "bg-white dark:bg-gray-800 custom-layout-pop-window" }, _l = { class: "custom-layout-button-slot" }, $e = {
+}), bl = /* @__PURE__ */ h("div", { class: "fixed inset-0 bg-gray-500 dark:bg-gray-600 dark:bg-opacity-75 bg-opacity-75 transition-opacity custom-upload-background" }, null, -1), yl = { class: "bg-white dark:bg-gray-800 custom-layout-pop-window" }, Sl = { class: "custom-layout-button-slot" }, $e = {
   __name: "ModalLayout",
+  props: {
+    modalType: {
+      type: String
+    }
+  },
   setup(r) {
-    const e = z("emitter");
+    const e = r, s = z("emitter");
     return we(() => {
-      const s = document.querySelector(".v-f-modal input");
-      s && s.focus();
-    }), (s, o) => (w(), I("div", {
+      const o = document.querySelector(".v-f-modal input");
+      console.log(e.modalType !== "standalone"), o && o.focus();
+    }), (o, a) => (w(), I("div", {
       class: "v-f-modal relative z-30",
       "aria-labelledby": "modal-title",
       role: "dialog",
       "aria-modal": "true",
-      onKeyup: o[1] || (o[1] = it((a) => D(e).emit("vf-modal-close"), ["esc"])),
+      onKeyup: a[1] || (a[1] = it((n) => D(s).emit("vf-modal-close"), ["esc"])),
       tabindex: "0"
     }, [
       bl,
-      h("div", yl, [
+      h("div", {
+        class: ce(`${e.modalType !== "standalone" ? "fixed" : ""} z-10 inset-0 overflow-hidden`)
+      }, [
         h("div", {
           class: "flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0",
-          onMousedown: o[0] || (o[0] = We((a) => D(e).emit("vf-modal-close"), ["self"]))
+          onMousedown: a[0] || (a[0] = We((n) => D(s).emit("vf-modal-close"), ["self"]))
         }, [
-          h("div", Sl, [
-            h("div", wl, [
-              Qt(s.$slots, "default")
+          h("div", {
+            class: ce(`${e.modalType !== "standalone" ? "custom-layout-regular" : "custom-layout-standalone"} custom-popup-layout transition-all`)
+          }, [
+            h("div", yl, [
+              Qt(o.$slots, "default")
             ]),
-            h("div", _l, [
-              Qt(s.$slots, "buttons")
+            h("div", Sl, [
+              Qt(o.$slots, "buttons")
             ])
-          ])
+          ], 2)
         ], 32)
-      ])
+      ], 2)
     ], 32));
   }
-}, xl = ["aria-label"], Dl = /* @__PURE__ */ h("svg", {
+}, wl = ["aria-label"], _l = /* @__PURE__ */ h("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   viewBox: "0 0 24 24",
@@ -3735,11 +3745,11 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
     "stroke-linejoin": "round",
     d: "M6 18L18 6M6 6l12 12"
   })
-], -1), kl = [
-  Dl
-], Ml = {
+], -1), xl = [
+  _l
+], Dl = {
   name: "Message"
-}, Ne = /* @__PURE__ */ Object.assign(Ml, {
+}, Ne = /* @__PURE__ */ Object.assign(Dl, {
   props: {
     error: {
       type: Boolean,
@@ -3768,11 +3778,11 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
           "aria-label": D(s)("Close"),
           "data-microtip-position": "top-left",
           role: "tooltip"
-        }, kl, 8, xl)
+        }, xl, 8, wl)
       ], 2))
     ]));
   }
-}), Il = { class: "sm:flex custom-new-folder-popup delete-modal-container" }, Cl = { class: "custom-file-picker-title" }, El = { class: "file-picker-title-img" }, Tl = /* @__PURE__ */ h("svg", {
+}), kl = { class: "sm:flex custom-new-folder-popup delete-modal-container" }, Ml = { class: "custom-file-picker-title" }, Il = { class: "file-picker-title-img" }, Cl = /* @__PURE__ */ h("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
   fill: "none",
@@ -3785,13 +3795,13 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
     "stroke-linejoin": "round",
     d: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
   })
-], -1), Ll = {
+], -1), El = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Al = /* @__PURE__ */ h("hr", null, null, -1), $l = { class: "mt-3 text-center create-folder-form custom-delete-modal" }, Nl = {
+}, Tl = /* @__PURE__ */ h("hr", null, null, -1), Ll = { class: "mt-3 text-center create-folder-form custom-delete-modal" }, Al = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Ol = { class: "mt-2" }, jl = { class: "text-sm text-gray-500" }, Pl = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, zl = {
+}, $l = { class: "mt-2" }, Nl = { class: "text-sm text-gray-500" }, Ol = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, jl = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -3799,13 +3809,13 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Rl = /* @__PURE__ */ h("path", {
+}, Pl = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), Bl = [
-  Rl
-], Vl = {
+}, null, -1), zl = [
+  Pl
+], Rl = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -3813,15 +3823,15 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Hl = /* @__PURE__ */ h("path", {
+}, Bl = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), Ul = [
-  Hl
-], Zl = { class: "ml-1.5" }, Yl = {
+}, null, -1), Vl = [
+  Bl
+], Hl = { class: "ml-1.5" }, Ul = {
   name: "VFModalDelete"
-}, Wl = /* @__PURE__ */ Object.assign(Yl, {
+}, Zl = /* @__PURE__ */ Object.assign(Ul, {
   props: {
     selection: Object,
     current: Object
@@ -3866,21 +3876,21 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
         }, E(D(a)("Cancel")), 1)
       ]),
       default: G(() => [
-        h("div", Il, [
-          h("div", Cl, [
-            h("div", El, [
-              Tl,
-              h("h3", Ll, E(D(a)("Delete files")), 1)
+        h("div", kl, [
+          h("div", Ml, [
+            h("div", Il, [
+              Cl,
+              h("h3", El, E(D(a)("Delete files")), 1)
             ]),
-            Al
+            Tl
           ]),
-          h("div", $l, [
-            h("h3", Nl, E(D(a)("Delete files")), 1),
-            h("div", Ol, [
-              h("p", jl, E(D(a)("Are you sure you want to delete these files?")), 1),
-              (w(!0), I(ne, null, ve(n.value, (g) => (w(), I("p", Pl, [
-                g.type == "dir" ? (w(), I("svg", zl, Bl)) : (w(), I("svg", Vl, Ul)),
-                h("span", Zl, E(g.basename), 1)
+          h("div", Ll, [
+            h("h3", Al, E(D(a)("Delete files")), 1),
+            h("div", $l, [
+              h("p", Nl, E(D(a)("Are you sure you want to delete these files?")), 1),
+              (w(!0), I(ne, null, ve(n.value, (g) => (w(), I("p", Ol, [
+                g.type == "dir" ? (w(), I("svg", jl, zl)) : (w(), I("svg", Rl, Vl)),
+                h("span", Hl, E(g.basename), 1)
               ]))), 256)),
               d.value.length ? (w(), q(Ne, {
                 key: 0,
@@ -3899,7 +3909,7 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
       _: 1
     }));
   }
-}), Fl = { class: "sm:flex sm:items-start" }, Kl = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Yl = { class: "sm:flex sm:items-start" }, Wl = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ h("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -3914,12 +3924,12 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
       d: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
     })
   ])
-], -1), Gl = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Xl = {
+], -1), Fl = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Kl = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, ql = { class: "mt-2" }, Ql = { class: "text-sm text-gray-500" }, Jl = {
+}, Gl = { class: "mt-2" }, Xl = { class: "text-sm text-gray-500" }, ql = {
   name: "VFModalMessage"
-}, ec = /* @__PURE__ */ Object.assign(Jl, {
+}, Ql = /* @__PURE__ */ Object.assign(ql, {
   props: {
     selection: Object
   },
@@ -3936,12 +3946,12 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
       default: G(() => {
         var n, d;
         return [
-          h("div", Fl, [
-            Kl,
-            h("div", Gl, [
-              h("h3", Xl, E(((n = r.selection) == null ? void 0 : n.title) ?? "Title"), 1),
-              h("div", ql, [
-                h("p", Ql, E(((d = r.selection) == null ? void 0 : d.message) ?? "Message") + ".", 1)
+          h("div", Yl, [
+            Wl,
+            h("div", Fl, [
+              h("h3", Kl, E(((n = r.selection) == null ? void 0 : n.title) ?? "Title"), 1),
+              h("div", Gl, [
+                h("p", Xl, E(((d = r.selection) == null ? void 0 : d.message) ?? "Message") + ".", 1)
               ])
             ])
           ])
@@ -3950,7 +3960,7 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
       _: 1
     }));
   }
-}), tc = { class: "sm:flex custom-new-folder-popup" }, rc = { class: "custom-file-picker-title" }, sc = { class: "file-picker-title-img" }, oc = /* @__PURE__ */ h("svg", {
+}), Jl = { class: "sm:flex custom-new-folder-popup" }, ec = { class: "custom-file-picker-title" }, tc = { class: "file-picker-title-img" }, rc = /* @__PURE__ */ h("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
   fill: "none",
@@ -3963,12 +3973,12 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
     "stroke-linejoin": "round",
     d: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
   })
-], -1), ic = {
+], -1), sc = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, nc = /* @__PURE__ */ h("hr", null, null, -1), ac = { class: "mt-3 text-center w-full p-4 h-full" }, lc = { class: "mt-2 create-folder-form" }, cc = { class: "text-sm text-gray-500" }, uc = ["onKeyup", "placeholder"], dc = {
+}, oc = /* @__PURE__ */ h("hr", null, null, -1), ic = { class: "mt-3 text-center w-full p-4 h-full" }, nc = { class: "mt-2 create-folder-form" }, ac = { class: "text-sm text-gray-500" }, lc = ["onKeyup", "placeholder"], cc = {
   name: "VFModalNewFolder"
-}, hc = /* @__PURE__ */ Object.assign(dc, {
+}, uc = /* @__PURE__ */ Object.assign(cc, {
   props: {
     selection: Object,
     current: Object
@@ -4008,24 +4018,24 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
         }, E(D(a)("Cancel")), 1)
       ]),
       default: G(() => [
-        h("div", tc, [
-          h("div", rc, [
-            h("div", sc, [
-              oc,
-              h("h3", ic, E(D(a)("New Folder")), 1)
+        h("div", Jl, [
+          h("div", ec, [
+            h("div", tc, [
+              rc,
+              h("h3", sc, E(D(a)("New Folder")), 1)
             ]),
-            nc
+            oc
           ]),
-          h("div", ac, [
-            h("div", lc, [
-              h("p", cc, E(D(a)("Create a new folder")), 1),
+          h("div", ic, [
+            h("div", nc, [
+              h("p", ac, E(D(a)("Create a new folder")), 1),
               Ee(h("input", {
                 "onUpdate:modelValue": v[0] || (v[0] = (g) => n.value = g),
                 onKeyup: it(p, ["enter"]),
                 class: "px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                 placeholder: D(a)("Folder Name"),
                 type: "text"
-              }, null, 40, uc), [
+              }, null, 40, lc), [
                 [nt, n.value]
               ]),
               d.value.length ? (w(), q(Ne, {
@@ -4045,7 +4055,7 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
       _: 1
     }));
   }
-}), fc = { class: "sm:flex sm:items-start" }, pc = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), dc = { class: "sm:flex sm:items-start" }, hc = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ h("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -4060,12 +4070,12 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
       d: "M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
     })
   ])
-], -1), gc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, mc = {
+], -1), fc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, pc = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, vc = { class: "mt-2" }, bc = { class: "text-sm text-gray-500" }, yc = ["onKeyup", "placeholder"], Sc = {
+}, gc = { class: "mt-2" }, mc = { class: "text-sm text-gray-500" }, vc = ["onKeyup", "placeholder"], bc = {
   name: "VFModalNewFile"
-}, wc = /* @__PURE__ */ Object.assign(Sc, {
+}, yc = /* @__PURE__ */ Object.assign(bc, {
   props: {
     selection: Object,
     current: Object
@@ -4103,19 +4113,19 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
         }, E(D(a)("Cancel")), 1)
       ]),
       default: G(() => [
-        h("div", fc, [
-          pc,
-          h("div", gc, [
-            h("h3", mc, E(D(a)("New File")), 1),
-            h("div", vc, [
-              h("p", bc, E(D(a)("Create a new file")), 1),
+        h("div", dc, [
+          hc,
+          h("div", fc, [
+            h("h3", pc, E(D(a)("New File")), 1),
+            h("div", gc, [
+              h("p", mc, E(D(a)("Create a new file")), 1),
               Ee(h("input", {
                 "onUpdate:modelValue": v[0] || (v[0] = (g) => n.value = g),
                 onKeyup: it(p, ["enter"]),
                 class: "px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                 placeholder: D(a)("File Name"),
                 type: "text"
-              }, null, 40, yc), [
+              }, null, 40, vc), [
                 [nt, n.value]
               ]),
               d.value.length ? (w(), q(Ne, {
@@ -4135,10 +4145,10 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
       _: 1
     }));
   }
-}), Rs = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyBpZD0iR3JvdXBfNjY0IiBkYXRhLW5hbWU9Ikdyb3VwIDY2NCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTAuMTQgLTAuMTQpIj4KICAgIDxyZWN0IGlkPSJSZWN0YW5nbGVfMjA4IiBkYXRhLW5hbWU9IlJlY3RhbmdsZSAyMDgiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4xNCAwLjE0KSIgZmlsbD0ibm9uZSIvPgogICAgPHBhdGggaWQ9Im1hZ25pZnkiIGQ9Ik0xMC4yNDcsM2E3LjI1MSw3LjI1MSwwLDAsMSw1LjUwNywxMS45NjJsLjMuM2guODgxbDUuNTc0LDUuNTc0TDIwLjgzOCwyMi41MWwtNS41NzQtNS41NzR2LS44ODFsLS4zLS4zQTcuMjQ4LDcuMjQ4LDAsMSwxLDEwLjI0NywzbTAsMi4yM2E1LjAxNyw1LjAxNywwLDEsMCw1LjAxNyw1LjAxN0E1LDUsMCwwLDAsMTAuMjQ3LDUuMjNaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC44NiAtMC44NikiIGZpbGw9IiNmZmI5MDEiLz4KICA8L2c+Cjwvc3ZnPg==", Bs = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMC4wMSIgaGVpZ2h0PSIxMC4wMDkiIHZpZXdCb3g9IjAgMCAxMC4wMSAxMC4wMDkiPg0KDQo8cGF0aCBpZD0iUGF0aF8yMTQiIGRhdGEtbmFtZT0iUGF0aCAyMTQiIGQ9Ik0xMi4xNzQsMTFsMy41ODMtMy41NzVhLjgzNy44MzcsMCwxLDAtMS4xODMtMS4xODNMMTEsOS44MjQsNy40MjQsNi4yNDFBLjgzNy44MzcsMCwwLDAsNi4yNDEsNy40MjRMOS44MjQsMTEsNi4yNDEsMTQuNTc1YS44MzcuODM3LDAsMSwwLDEuMTgzLDEuMTgzTDExLDEyLjE3NWwzLjU3NSwzLjU4M2EuODM3LjgzNywwLDEsMCwxLjE4My0xLjE4M1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC01Ljk5NCAtNS45OTYpIiBmaWxsPSIjODA4ZDkzIi8+DQoNCjwvc3ZnPg==", Vs = "data:image/svg+xml;base64,PHN2ZyBpZD0iR3JvdXBfMTA4OCIgZGF0YS1uYW1lPSJHcm91cCAxMDg4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMC44OTMiIGhlaWdodD0iMjAuODkzIiB2aWV3Qm94PSIwIDAgMjAuODkzIDIwLjg5MyI+CiAgPGNpcmNsZSBpZD0iRWxsaXBzZV8zIiBkYXRhLW5hbWU9IkVsbGlwc2UgMyIgY3g9IjIuNzg2IiBjeT0iMi43ODYiIHI9IjIuNzg2IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3LjY2MSA3LjY2MSkiIGZpbGw9IiNmZjUyNDIiLz4KICA8cGF0aCBpZD0iUGF0aF8yMTciIGRhdGEtbmFtZT0iUGF0aCAyMTciIGQ9Ik0xMC4wOTQsNCw4LjUsNS43NDFINS43NDFBMS43NDEsMS43NDEsMCwwLDAsNCw3LjQ4MlYxNy45MjlBMS43NDEsMS43NDEsMCwwLDAsNS43NDEsMTkuNjdIMTkuNjdhMS43NDEsMS43NDEsMCwwLDAsMS43NDEtMS43NDFWNy40ODJBMS43NDEsMS43NDEsMCwwLDAsMTkuNjcsNS43NDFIMTYuOTFMMTUuMzE3LDRabTIuNjEyLDEzLjA1OGE0LjM1Myw0LjM1MywwLDEsMSw0LjM1My00LjM1M0E0LjM1NCw0LjM1NCwwLDAsMSwxMi43MDUsMTcuMDU4WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTIuMjU5IC0yLjI1OSkiIGZpbGw9IiNmZjUyNDIiLz4KICA8cGF0aCBpZD0iUGF0aF8yMTgiIGRhdGEtbmFtZT0iUGF0aCAyMTgiIGQ9Ik0wLDBIMjAuODkzVjIwLjg5M0gwWiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=", _c = { class: "flex" }, xc = ["aria-label"], Dc = { class: "ml-auto mb-2" }, kc = {
+}), Rs = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyBpZD0iR3JvdXBfNjY0IiBkYXRhLW5hbWU9Ikdyb3VwIDY2NCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTAuMTQgLTAuMTQpIj4KICAgIDxyZWN0IGlkPSJSZWN0YW5nbGVfMjA4IiBkYXRhLW5hbWU9IlJlY3RhbmdsZSAyMDgiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4xNCAwLjE0KSIgZmlsbD0ibm9uZSIvPgogICAgPHBhdGggaWQ9Im1hZ25pZnkiIGQ9Ik0xMC4yNDcsM2E3LjI1MSw3LjI1MSwwLDAsMSw1LjUwNywxMS45NjJsLjMuM2guODgxbDUuNTc0LDUuNTc0TDIwLjgzOCwyMi41MWwtNS41NzQtNS41NzR2LS44ODFsLS4zLS4zQTcuMjQ4LDcuMjQ4LDAsMSwxLDEwLjI0NywzbTAsMi4yM2E1LjAxNyw1LjAxNywwLDEsMCw1LjAxNyw1LjAxN0E1LDUsMCwwLDAsMTAuMjQ3LDUuMjNaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC44NiAtMC44NikiIGZpbGw9IiNmZmI5MDEiLz4KICA8L2c+Cjwvc3ZnPg==", Bs = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMC4wMSIgaGVpZ2h0PSIxMC4wMDkiIHZpZXdCb3g9IjAgMCAxMC4wMSAxMC4wMDkiPg0KDQo8cGF0aCBpZD0iUGF0aF8yMTQiIGRhdGEtbmFtZT0iUGF0aCAyMTQiIGQ9Ik0xMi4xNzQsMTFsMy41ODMtMy41NzVhLjgzNy44MzcsMCwxLDAtMS4xODMtMS4xODNMMTEsOS44MjQsNy40MjQsNi4yNDFBLjgzNy44MzcsMCwwLDAsNi4yNDEsNy40MjRMOS44MjQsMTEsNi4yNDEsMTQuNTc1YS44MzcuODM3LDAsMSwwLDEuMTgzLDEuMTgzTDExLDEyLjE3NWwzLjU3NSwzLjU4M2EuODM3LjgzNywwLDEsMCwxLjE4My0xLjE4M1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC01Ljk5NCAtNS45OTYpIiBmaWxsPSIjODA4ZDkzIi8+DQoNCjwvc3ZnPg==", Vs = "data:image/svg+xml;base64,PHN2ZyBpZD0iR3JvdXBfMTA4OCIgZGF0YS1uYW1lPSJHcm91cCAxMDg4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMC44OTMiIGhlaWdodD0iMjAuODkzIiB2aWV3Qm94PSIwIDAgMjAuODkzIDIwLjg5MyI+CiAgPGNpcmNsZSBpZD0iRWxsaXBzZV8zIiBkYXRhLW5hbWU9IkVsbGlwc2UgMyIgY3g9IjIuNzg2IiBjeT0iMi43ODYiIHI9IjIuNzg2IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3LjY2MSA3LjY2MSkiIGZpbGw9IiNmZjUyNDIiLz4KICA8cGF0aCBpZD0iUGF0aF8yMTciIGRhdGEtbmFtZT0iUGF0aCAyMTciIGQ9Ik0xMC4wOTQsNCw4LjUsNS43NDFINS43NDFBMS43NDEsMS43NDEsMCwwLDAsNCw3LjQ4MlYxNy45MjlBMS43NDEsMS43NDEsMCwwLDAsNS43NDEsMTkuNjdIMTkuNjdhMS43NDEsMS43NDEsMCwwLDAsMS43NDEtMS43NDFWNy40ODJBMS43NDEsMS43NDEsMCwwLDAsMTkuNjcsNS43NDFIMTYuOTFMMTUuMzE3LDRabTIuNjEyLDEzLjA1OGE0LjM1Myw0LjM1MywwLDEsMSw0LjM1My00LjM1M0E0LjM1NCw0LjM1NCwwLDAsMSwxMi43MDUsMTcuMDU4WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTIuMjU5IC0yLjI1OSkiIGZpbGw9IiNmZjUyNDIiLz4KICA8cGF0aCBpZD0iUGF0aF8yMTgiIGRhdGEtbmFtZT0iUGF0aCAyMTgiIGQ9Ik0wLDBIMjAuODkzVjIwLjg5M0gwWiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=", Sc = { class: "flex" }, wc = ["aria-label"], _c = { class: "ml-auto mb-2" }, xc = {
   key: 0,
   class: "p-2 border font-normal whitespace-pre-wrap border-gray-200 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto"
-}, Mc = { key: 1 }, Ic = {
+}, Dc = { key: 1 }, kc = {
   __name: "Text",
   props: {
     selection: Object
@@ -4175,15 +4185,15 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
       });
     };
     return (M, $) => (w(), I(ne, null, [
-      h("div", _c, [
+      h("div", Sc, [
         h("div", {
           class: "mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
           id: "modal-title",
           "aria-label": r.selection.item.path,
           "data-microtip-position": "bottom-right",
           role: "tooltip"
-        }, E(r.selection.item.basename), 9, xc),
-        h("div", Dc, [
+        }, E(r.selection.item.basename), 9, wc),
+        h("div", _c, [
           d.value ? (w(), I("button", {
             key: 0,
             onClick: k,
@@ -4196,7 +4206,7 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
         ])
       ]),
       h("div", null, [
-        d.value ? (w(), I("div", Mc, [
+        d.value ? (w(), I("div", Dc, [
           Ee(h("textarea", {
             ref_key: "editInput",
             ref: n,
@@ -4209,7 +4219,7 @@ const pl = { class: "vuefinder" }, gl = /* @__PURE__ */ h("iframe", {
           }, null, 512), [
             [nt, a.value]
           ])
-        ])) : (w(), I("pre", kc, E(o.value), 1)),
+        ])) : (w(), I("pre", xc, E(o.value), 1)),
         l.value.length ? (w(), q(Ne, {
           key: 2,
           onHidden: $[2] || ($[2] = (N) => l.value = ""),
@@ -4247,7 +4257,7 @@ function Hs(r) {
   for (var e = 1; e < arguments.length; e++) {
     var s = arguments[e] != null ? arguments[e] : {};
     e % 2 ? Zr(Object(s), !0).forEach(function(o) {
-      Tc(r, o, s[o]);
+      Cc(r, o, s[o]);
     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(r, Object.getOwnPropertyDescriptors(s)) : Zr(Object(s)).forEach(function(o) {
       Object.defineProperty(r, o, Object.getOwnPropertyDescriptor(s, o));
     });
@@ -4262,7 +4272,7 @@ function rr(r) {
     return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
   }, rr(r);
 }
-function Cc(r, e) {
+function Mc(r, e) {
   if (!(r instanceof e))
     throw new TypeError("Cannot call a class as a function");
 }
@@ -4272,12 +4282,12 @@ function Yr(r, e) {
     o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(r, o.key, o);
   }
 }
-function Ec(r, e, s) {
+function Ic(r, e, s) {
   return e && Yr(r.prototype, e), s && Yr(r, s), Object.defineProperty(r, "prototype", {
     writable: !1
   }), r;
 }
-function Tc(r, e, s) {
+function Cc(r, e, s) {
   return e in r ? Object.defineProperty(r, e, {
     value: s,
     enumerable: !0,
@@ -4286,17 +4296,17 @@ function Tc(r, e, s) {
   }) : r[e] = s, r;
 }
 function Us(r) {
-  return Lc(r) || Ac(r) || $c(r) || Nc();
+  return Ec(r) || Tc(r) || Lc(r) || Ac();
 }
-function Lc(r) {
+function Ec(r) {
   if (Array.isArray(r))
     return sr(r);
 }
-function Ac(r) {
+function Tc(r) {
   if (typeof Symbol < "u" && r[Symbol.iterator] != null || r["@@iterator"] != null)
     return Array.from(r);
 }
-function $c(r, e) {
+function Lc(r, e) {
   if (r) {
     if (typeof r == "string")
       return sr(r, e);
@@ -4313,11 +4323,11 @@ function sr(r, e) {
     o[s] = r[s];
   return o;
 }
-function Nc() {
+function Ac() {
   throw new TypeError(`Invalid attempt to spread non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
 }
-var Zt = typeof window < "u" && typeof window.document < "u", Le = Zt ? window : {}, Dr = Zt && Le.document.documentElement ? "ontouchstart" in Le.document.documentElement : !1, kr = Zt ? "PointerEvent" in Le : !1, J = "cropper", Mr = "all", Zs = "crop", Ys = "move", Ws = "zoom", Ze = "e", Ye = "w", Qe = "s", Pe = "n", ft = "ne", pt = "nw", gt = "se", mt = "sw", or = "".concat(J, "-crop"), Wr = "".concat(J, "-disabled"), he = "".concat(J, "-hidden"), Fr = "".concat(J, "-hide"), Oc = "".concat(J, "-invisible"), zt = "".concat(J, "-modal"), ir = "".concat(J, "-move"), yt = "".concat(J, "Action"), At = "".concat(J, "Preview"), Ir = "crop", Fs = "move", Ks = "none", nr = "crop", ar = "cropend", lr = "cropmove", cr = "cropstart", Kr = "dblclick", jc = Dr ? "touchstart" : "mousedown", Pc = Dr ? "touchmove" : "mousemove", zc = Dr ? "touchend touchcancel" : "mouseup", Gr = kr ? "pointerdown" : jc, Xr = kr ? "pointermove" : Pc, qr = kr ? "pointerup pointercancel" : zc, Qr = "ready", Jr = "resize", es = "wheel", ur = "zoom", ts = "image/jpeg", Rc = /^e|w|s|n|se|sw|ne|nw|all|crop|move|zoom$/, Bc = /^data:/, Vc = /^data:image\/jpeg;base64,/, Hc = /^img|canvas$/i, Gs = 200, Xs = 100, rs = {
+var Zt = typeof window < "u" && typeof window.document < "u", Le = Zt ? window : {}, Dr = Zt && Le.document.documentElement ? "ontouchstart" in Le.document.documentElement : !1, kr = Zt ? "PointerEvent" in Le : !1, J = "cropper", Mr = "all", Zs = "crop", Ys = "move", Ws = "zoom", Ze = "e", Ye = "w", Qe = "s", Pe = "n", ft = "ne", pt = "nw", gt = "se", mt = "sw", or = "".concat(J, "-crop"), Wr = "".concat(J, "-disabled"), he = "".concat(J, "-hidden"), Fr = "".concat(J, "-hide"), $c = "".concat(J, "-invisible"), zt = "".concat(J, "-modal"), ir = "".concat(J, "-move"), yt = "".concat(J, "Action"), At = "".concat(J, "Preview"), Ir = "crop", Fs = "move", Ks = "none", nr = "crop", ar = "cropend", lr = "cropmove", cr = "cropstart", Kr = "dblclick", Nc = Dr ? "touchstart" : "mousedown", Oc = Dr ? "touchmove" : "mousemove", jc = Dr ? "touchend touchcancel" : "mouseup", Gr = kr ? "pointerdown" : Nc, Xr = kr ? "pointermove" : Oc, qr = kr ? "pointerup pointercancel" : jc, Qr = "ready", Jr = "resize", es = "wheel", ur = "zoom", ts = "image/jpeg", Pc = /^e|w|s|n|se|sw|ne|nw|all|crop|move|zoom$/, zc = /^data:/, Rc = /^data:image\/jpeg;base64,/, Bc = /^img|canvas$/i, Gs = 200, Xs = 100, rs = {
   // Define the view mode of the cropper
   viewMode: 0,
   // 0, 1, 2, 3
@@ -4388,9 +4398,9 @@ var Zt = typeof window < "u" && typeof window.document < "u", Le = Zt ? window :
   cropend: null,
   crop: null,
   zoom: null
-}, Uc = '<div class="cropper-container" touch-action="none"><div class="cropper-wrap-box"><div class="cropper-canvas"></div></div><div class="cropper-drag-box"></div><div class="cropper-crop-box"><span class="cropper-view-box"></span><span class="cropper-dashed dashed-h"></span><span class="cropper-dashed dashed-v"></span><span class="cropper-center"></span><span class="cropper-face"></span><span class="cropper-line line-e" data-cropper-action="e"></span><span class="cropper-line line-n" data-cropper-action="n"></span><span class="cropper-line line-w" data-cropper-action="w"></span><span class="cropper-line line-s" data-cropper-action="s"></span><span class="cropper-point point-e" data-cropper-action="e"></span><span class="cropper-point point-n" data-cropper-action="n"></span><span class="cropper-point point-w" data-cropper-action="w"></span><span class="cropper-point point-s" data-cropper-action="s"></span><span class="cropper-point point-ne" data-cropper-action="ne"></span><span class="cropper-point point-nw" data-cropper-action="nw"></span><span class="cropper-point point-sw" data-cropper-action="sw"></span><span class="cropper-point point-se" data-cropper-action="se"></span></div></div>', Zc = Number.isNaN || Le.isNaN;
+}, Vc = '<div class="cropper-container" touch-action="none"><div class="cropper-wrap-box"><div class="cropper-canvas"></div></div><div class="cropper-drag-box"></div><div class="cropper-crop-box"><span class="cropper-view-box"></span><span class="cropper-dashed dashed-h"></span><span class="cropper-dashed dashed-v"></span><span class="cropper-center"></span><span class="cropper-face"></span><span class="cropper-line line-e" data-cropper-action="e"></span><span class="cropper-line line-n" data-cropper-action="n"></span><span class="cropper-line line-w" data-cropper-action="w"></span><span class="cropper-line line-s" data-cropper-action="s"></span><span class="cropper-point point-e" data-cropper-action="e"></span><span class="cropper-point point-n" data-cropper-action="n"></span><span class="cropper-point point-w" data-cropper-action="w"></span><span class="cropper-point point-s" data-cropper-action="s"></span><span class="cropper-point point-ne" data-cropper-action="ne"></span><span class="cropper-point point-nw" data-cropper-action="nw"></span><span class="cropper-point point-sw" data-cropper-action="sw"></span><span class="cropper-point point-se" data-cropper-action="se"></span></div></div>', Hc = Number.isNaN || Le.isNaN;
 function Z(r) {
-  return typeof r == "number" && !Zc(r);
+  return typeof r == "number" && !Hc(r);
 }
 var ss = function(e) {
   return e > 0 && e < 1 / 0;
@@ -4401,13 +4411,13 @@ function Gt(r) {
 function Ke(r) {
   return rr(r) === "object" && r !== null;
 }
-var Yc = Object.prototype.hasOwnProperty;
+var Uc = Object.prototype.hasOwnProperty;
 function Je(r) {
   if (!Ke(r))
     return !1;
   try {
     var e = r.constructor, s = e.prototype;
-    return e && s && Yc.call(s, "isPrototypeOf");
+    return e && s && Uc.call(s, "isPrototypeOf");
   } catch {
     return !1;
   }
@@ -4415,9 +4425,9 @@ function Je(r) {
 function de(r) {
   return typeof r == "function";
 }
-var Wc = Array.prototype.slice;
+var Zc = Array.prototype.slice;
 function qs(r) {
-  return Array.from ? Array.from(r) : Wc.call(r);
+  return Array.from ? Array.from(r) : Zc.call(r);
 }
 function oe(r, e) {
   return r && de(e) && (Array.isArray(r) || Z(r.length) ? qs(r).forEach(function(s, o) {
@@ -4434,19 +4444,19 @@ var ee = Object.assign || function(e) {
       e[d] = n[d];
     });
   }), e;
-}, Fc = /\.\d*(?:0|9){12}\d*$/;
+}, Yc = /\.\d*(?:0|9){12}\d*$/;
 function tt(r) {
   var e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1e11;
-  return Fc.test(r) ? Math.round(r * e) / e : r;
+  return Yc.test(r) ? Math.round(r * e) / e : r;
 }
-var Kc = /^width|height|left|top|marginLeft|marginTop$/;
+var Wc = /^width|height|left|top|marginLeft|marginTop$/;
 function ze(r, e) {
   var s = r.style;
   oe(e, function(o, a) {
-    Kc.test(a) && Z(o) && (o = "".concat(o, "px")), s[a] = o;
+    Wc.test(a) && Z(o) && (o = "".concat(o, "px")), s[a] = o;
   });
 }
-function Gc(r, e) {
+function Fc(r, e) {
   return r.classList ? r.classList.contains(e) : r.className.indexOf(e) > -1;
 }
 function le(r, e) {
@@ -4491,9 +4501,9 @@ function et(r, e, s) {
     s ? le(r, e) : Te(r, e);
   }
 }
-var Xc = /([a-z\d])([A-Z])/g;
+var Kc = /([a-z\d])([A-Z])/g;
 function Cr(r) {
-  return r.replace(Xc, "$1-$2").toLowerCase();
+  return r.replace(Kc, "$1-$2").toLowerCase();
 }
 function dr(r, e) {
   return Ke(r[e]) ? r[e] : r.dataset ? r.dataset[e] : r.getAttribute("data-".concat(Cr(e)));
@@ -4501,7 +4511,7 @@ function dr(r, e) {
 function St(r, e, s) {
   Ke(s) ? r[e] = s : r.dataset ? r.dataset[e] = s : r.setAttribute("data-".concat(Cr(e)), s);
 }
-function qc(r, e) {
+function Gc(r, e) {
   if (Ke(r[e]))
     try {
       delete r[e];
@@ -4578,9 +4588,9 @@ function eo(r) {
     top: e.top + (window.pageYOffset - document.documentElement.clientTop)
   };
 }
-var Xt = Le.location, Qc = /^(\w+:)\/\/([^:/?#]*):?(\d*)/i;
+var Xt = Le.location, Xc = /^(\w+:)\/\/([^:/?#]*):?(\d*)/i;
 function os(r) {
-  var e = r.match(Qc);
+  var e = r.match(Xc);
   return e !== null && (e[1] !== Xt.protocol || e[2] !== Xt.hostname || e[3] !== Xt.port);
 }
 function is(r) {
@@ -4597,7 +4607,7 @@ function vt(r) {
     transform: p
   };
 }
-function Jc(r) {
+function qc(r) {
   var e = Hs({}, r), s = 0;
   return oe(r, function(o, a) {
     delete e[a], oe(e, function(n) {
@@ -4616,7 +4626,7 @@ function $t(r, e) {
     startY: o
   }, a);
 }
-function eu(r) {
+function Qc(r) {
   var e = 0, s = 0, o = 0;
   return oe(r, function(a) {
     var n = a.startX, d = a.startY;
@@ -4638,7 +4648,7 @@ function Re(r) {
     height: s
   };
 }
-function tu(r) {
+function Jc(r) {
   var e = r.width, s = r.height, o = r.degree;
   if (o = Math.abs(o) % 180, o === 90)
     return {
@@ -4654,7 +4664,7 @@ function tu(r) {
     height: l
   };
 }
-function ru(r, e, s, o) {
+function eu(r, e, s, o) {
   var a = e.aspectRatio, n = e.naturalWidth, d = e.naturalHeight, p = e.rotate, l = p === void 0 ? 0 : p, v = e.scaleX, g = v === void 0 ? 1 : v, b = e.scaleY, S = b === void 0 ? 1 : b, k = s.aspectRatio, M = s.naturalWidth, $ = s.naturalHeight, N = o.fillColor, H = N === void 0 ? "transparent" : N, j = o.imageSmoothingEnabled, T = j === void 0 ? !0 : j, B = o.imageSmoothingQuality, K = B === void 0 ? "low" : B, _ = o.maxWidth, P = _ === void 0 ? 1 / 0 : _, X = o.maxHeight, se = X === void 0 ? 1 / 0 : X, Q = o.minWidth, ue = Q === void 0 ? 0 : Q, be = o.minHeight, pe = be === void 0 ? 0 : be, ge = document.createElement("canvas"), A = ge.getContext("2d"), R = Re({
     aspectRatio: k,
     width: P,
@@ -4677,26 +4687,26 @@ function ru(r, e, s, o) {
   })))), A.restore(), ge;
 }
 var to = String.fromCharCode;
-function su(r, e, s) {
+function tu(r, e, s) {
   var o = "";
   s += e;
   for (var a = e; a < s; a += 1)
     o += to(r.getUint8(a));
   return o;
 }
-var ou = /^data:.*,/;
-function iu(r) {
-  var e = r.replace(ou, ""), s = atob(e), o = new ArrayBuffer(s.length), a = new Uint8Array(o);
+var ru = /^data:.*,/;
+function su(r) {
+  var e = r.replace(ru, ""), s = atob(e), o = new ArrayBuffer(s.length), a = new Uint8Array(o);
   return oe(a, function(n, d) {
     a[d] = s.charCodeAt(d);
   }), o;
 }
-function nu(r, e) {
+function ou(r, e) {
   for (var s = [], o = 8192, a = new Uint8Array(r); a.length > 0; )
     s.push(to.apply(null, qs(a.subarray(0, o)))), a = a.subarray(o);
   return "data:".concat(e, ";base64,").concat(btoa(s.join("")));
 }
-function au(r) {
+function iu(r) {
   var e = new DataView(r), s;
   try {
     var o, a, n;
@@ -4710,7 +4720,7 @@ function au(r) {
       }
     if (a) {
       var l = a + 4, v = a + 10;
-      if (su(e, l, 4) === "Exif") {
+      if (tu(e, l, 4) === "Exif") {
         var g = e.getUint16(v);
         if (o = g === 18761, (o || g === 19789) && e.getUint16(v + 2, o) === 42) {
           var b = e.getUint32(v + 4, o);
@@ -4731,7 +4741,7 @@ function au(r) {
   }
   return s;
 }
-function lu(r) {
+function nu(r) {
   var e = 0, s = 1, o = 1;
   switch (r) {
     case 2:
@@ -4762,7 +4772,7 @@ function lu(r) {
     scaleY: o
   };
 }
-var cu = {
+var au = {
   render: function() {
     this.initContainer(), this.initCanvas(), this.initCropBox(), this.renderCanvas(), this.cropped && this.renderCropBox();
   },
@@ -4813,7 +4823,7 @@ var cu = {
   renderCanvas: function(e, s) {
     var o = this.canvasData, a = this.imageData;
     if (s) {
-      var n = tu({
+      var n = Jc({
         width: a.naturalWidth * Math.abs(a.scaleX || 1),
         height: a.naturalHeight * Math.abs(a.scaleY || 1),
         degree: a.rotate || 0
@@ -4871,7 +4881,7 @@ var cu = {
   output: function() {
     this.preview(), rt(this.element, nr, this.getData());
   }
-}, uu = {
+}, lu = {
   initPreview: function() {
     var e = this.element, s = this.crossOrigin, o = this.options.preview, a = s ? this.crossOriginUrl : this.url, n = e.alt || "The image to preview", d = document.createElement("img");
     if (s && (d.crossOrigin = s), d.src = a, d.alt = n, this.viewBox.appendChild(d), this.viewBoxImage = d, !!o) {
@@ -4892,7 +4902,7 @@ var cu = {
       ze(e, {
         width: s.width,
         height: s.height
-      }), e.innerHTML = s.html, qc(e, At);
+      }), e.innerHTML = s.html, Gc(e, At);
     });
   },
   preview: function() {
@@ -4917,7 +4927,7 @@ var cu = {
       }, e))));
     }));
   }
-}, du = {
+}, cu = {
   bind: function() {
     var e = this.element, s = this.options, o = this.cropper;
     de(s.cropstart) && Se(e, cr, s.cropstart), de(s.cropmove) && Se(e, lr, s.cropmove), de(s.cropend) && Se(e, ar, s.cropend), de(s.crop) && Se(e, nr, s.crop), de(s.zoom) && Se(e, ur, s.zoom), Se(o, Gr, this.onCropStart = this.cropStart.bind(this)), s.zoomable && s.zoomOnWheel && Se(o, es, this.onWheel = this.wheel.bind(this), {
@@ -4932,7 +4942,7 @@ var cu = {
       capture: !0
     }), s.toggleDragModeOnDblclick && ke(o, Kr, this.onDblclick), ke(e.ownerDocument, Xr, this.onCropMove), ke(e.ownerDocument, qr, this.onCropEnd), s.responsive && ke(window, Jr, this.onResize);
   }
-}, hu = {
+}, uu = {
   resize: function() {
     if (!this.disabled) {
       var e = this.options, s = this.container, o = this.containerData, a = s.offsetWidth / o.width, n = s.offsetHeight / o.height, d = Math.abs(a - 1) > Math.abs(n - 1) ? a : n;
@@ -4947,7 +4957,7 @@ var cu = {
     }
   },
   dblclick: function() {
-    this.disabled || this.options.dragMode === Ks || this.setDragMode(Gc(this.dragBox, or) ? Fs : Ir);
+    this.disabled || this.options.dragMode === Ks || this.setDragMode(Fc(this.dragBox, or) ? Fs : Ir);
   },
   wheel: function(e) {
     var s = this, o = Number(this.options.wheelZoomRatio) || 0.1, a = 1;
@@ -4962,7 +4972,7 @@ var cu = {
       var a = this.options, n = this.pointers, d;
       e.changedTouches ? oe(e.changedTouches, function(p) {
         n[p.identifier] = $t(p);
-      }) : n[e.pointerId || 0] = $t(e), Object.keys(n).length > 1 && a.zoomable && a.zoomOnTouch ? d = Ws : d = dr(e.target, yt), Rc.test(d) && rt(this.element, cr, {
+      }) : n[e.pointerId || 0] = $t(e), Object.keys(n).length > 1 && a.zoomable && a.zoomOnTouch ? d = Ws : d = dr(e.target, yt), Pc.test(d) && rt(this.element, cr, {
         originalEvent: e,
         action: d
       }) !== !1 && (e.preventDefault(), this.action = d, this.cropping = !1, d === Zs && (this.cropping = !0, le(this.dragBox, zt)));
@@ -4991,7 +5001,7 @@ var cu = {
       }));
     }
   }
-}, fu = {
+}, du = {
   change: function(e) {
     var s = this.options, o = this.canvasData, a = this.containerData, n = this.cropBoxData, d = this.pointers, p = this.action, l = s.aspectRatio, v = n.left, g = n.top, b = n.width, S = n.height, k = v + b, M = g + S, $ = 0, N = 0, H = a.width, j = a.height, T = !0, B;
     !l && e.shiftKey && (l = b && S ? b / S : 1), this.limited && ($ = n.minLeft, N = n.minTop, H = $ + Math.min(a.width, o.width, o.left + o.width), j = N + Math.min(a.height, o.height, o.top + o.height));
@@ -5094,7 +5104,7 @@ var cu = {
         this.move(_.x, _.y), T = !1;
         break;
       case Ws:
-        this.zoom(Jc(d), e), T = !1;
+        this.zoom(qc(d), e), T = !1;
         break;
       case Zs:
         if (!_.x || !_.y) {
@@ -5108,7 +5118,7 @@ var cu = {
       X.startX = X.endX, X.startY = X.endY;
     });
   }
-}, pu = {
+}, hu = {
   // Show the crop box manually
   crop: function() {
     return this.ready && !this.cropped && !this.disabled && (this.cropped = !0, this.limitCropBox(!0, !0), this.options.modal && le(this.dragBox, zt), Te(this.cropBox, he), this.setCropBoxData(this.initialCropBoxData)), this;
@@ -5202,7 +5212,7 @@ var cu = {
       }) === !1)
         return this;
       if (o) {
-        var S = this.pointers, k = eo(this.cropper), M = S && Object.keys(S).length ? eu(S) : {
+        var S = this.pointers, k = eo(this.cropper), M = S && Object.keys(S).length ? Qc(S) : {
           pageX: o.pageX,
           pageY: o.pageY
         };
@@ -5366,7 +5376,7 @@ var cu = {
     var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
     if (!this.ready || !window.HTMLCanvasElement)
       return null;
-    var s = this.canvasData, o = ru(this.image, this.imageData, s, e);
+    var s = this.canvasData, o = eu(this.image, this.imageData, s, e);
     if (!this.cropped)
       return o;
     var a = this.getData(), n = a.x, d = a.y, p = a.width, l = a.height, v = o.width / Math.floor(s.naturalWidth);
@@ -5422,14 +5432,14 @@ var cu = {
     }
     return this;
   }
-}, gu = Le.Cropper, ro = /* @__PURE__ */ function() {
+}, fu = Le.Cropper, ro = /* @__PURE__ */ function() {
   function r(e) {
     var s = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    if (Cc(this, r), !e || !Hc.test(e.tagName))
+    if (Mc(this, r), !e || !Bc.test(e.tagName))
       throw new Error("The first argument is required and must be an <img> or <canvas> element.");
     this.element = e, this.options = ee({}, rs, Je(s) && s), this.cropped = !1, this.disabled = !1, this.pointers = {}, this.ready = !1, this.reloading = !1, this.replaced = !1, this.sized = !1, this.sizing = !1, this.init();
   }
-  return Ec(r, [{
+  return Ic(r, [{
     key: "init",
     value: function() {
       var s = this.element, o = s.tagName.toLowerCase(), a;
@@ -5454,8 +5464,8 @@ var cu = {
           this.clone();
           return;
         }
-        if (Bc.test(s)) {
-          Vc.test(s) ? this.read(iu(s)) : this.clone();
+        if (zc.test(s)) {
+          Rc.test(s) ? this.read(su(s)) : this.clone();
           return;
         }
         var d = new XMLHttpRequest(), p = this.clone.bind(this);
@@ -5471,10 +5481,10 @@ var cu = {
   }, {
     key: "read",
     value: function(s) {
-      var o = this.options, a = this.imageData, n = au(s), d = 0, p = 1, l = 1;
+      var o = this.options, a = this.imageData, n = iu(s), d = 0, p = 1, l = 1;
       if (n > 1) {
-        this.url = nu(s, ts);
-        var v = lu(n);
+        this.url = ou(s, ts);
+        var v = nu(n);
         d = v.rotate, p = v.scaleX, l = v.scaleY;
       }
       o.rotatable && (a.rotate = d), o.scalable && (a.scaleX = p, a.scaleY = l), this.clone();
@@ -5519,9 +5529,9 @@ var cu = {
     value: function() {
       if (!(!this.sized || this.ready)) {
         var s = this.element, o = this.options, a = this.image, n = s.parentNode, d = document.createElement("div");
-        d.innerHTML = Uc;
+        d.innerHTML = Vc;
         var p = d.querySelector(".".concat(J, "-container")), l = p.querySelector(".".concat(J, "-canvas")), v = p.querySelector(".".concat(J, "-drag-box")), g = p.querySelector(".".concat(J, "-crop-box")), b = g.querySelector(".".concat(J, "-face"));
-        this.container = n, this.cropper = p, this.canvas = l, this.dragBox = v, this.cropBox = g, this.viewBox = p.querySelector(".".concat(J, "-view-box")), this.face = b, l.appendChild(a), le(s, he), n.insertBefore(p, s.nextSibling), Te(a, Fr), this.initPreview(), this.bind(), o.initialAspectRatio = Math.max(0, o.initialAspectRatio) || NaN, o.aspectRatio = Math.max(0, o.aspectRatio) || NaN, o.viewMode = Math.max(0, Math.min(3, Math.round(o.viewMode))) || 0, le(g, he), o.guides || le(g.getElementsByClassName("".concat(J, "-dashed")), he), o.center || le(g.getElementsByClassName("".concat(J, "-center")), he), o.background && le(p, "".concat(J, "-bg")), o.highlight || le(b, Oc), o.cropBoxMovable && (le(b, ir), St(b, yt, Mr)), o.cropBoxResizable || (le(g.getElementsByClassName("".concat(J, "-line")), he), le(g.getElementsByClassName("".concat(J, "-point")), he)), this.render(), this.ready = !0, this.setDragMode(o.dragMode), o.autoCrop && this.crop(), this.setData(o.data), de(o.ready) && Se(s, Qr, o.ready, {
+        this.container = n, this.cropper = p, this.canvas = l, this.dragBox = v, this.cropBox = g, this.viewBox = p.querySelector(".".concat(J, "-view-box")), this.face = b, l.appendChild(a), le(s, he), n.insertBefore(p, s.nextSibling), Te(a, Fr), this.initPreview(), this.bind(), o.initialAspectRatio = Math.max(0, o.initialAspectRatio) || NaN, o.aspectRatio = Math.max(0, o.aspectRatio) || NaN, o.viewMode = Math.max(0, Math.min(3, Math.round(o.viewMode))) || 0, le(g, he), o.guides || le(g.getElementsByClassName("".concat(J, "-dashed")), he), o.center || le(g.getElementsByClassName("".concat(J, "-center")), he), o.background && le(p, "".concat(J, "-bg")), o.highlight || le(b, $c), o.cropBoxMovable && (le(b, ir), St(b, yt, Mr)), o.cropBoxResizable || (le(g.getElementsByClassName("".concat(J, "-line")), he), le(g.getElementsByClassName("".concat(J, "-point")), he)), this.render(), this.ready = !0, this.setDragMode(o.dragMode), o.autoCrop && this.crop(), this.setData(o.data), de(o.ready) && Se(s, Qr, o.ready, {
           once: !0
         }), rt(s, Qr);
       }
@@ -5547,7 +5557,7 @@ var cu = {
   }], [{
     key: "noConflict",
     value: function() {
-      return window.Cropper = gu, r;
+      return window.Cropper = fu, r;
     }
     /**
      * Change the default options.
@@ -5560,8 +5570,8 @@ var cu = {
     }
   }]), r;
 }();
-ee(ro.prototype, cu, uu, du, hu, fu, pu);
-const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" }, yu = { class: "w-full flex justify-center" }, Su = ["src"], wu = {
+ee(ro.prototype, au, lu, cu, uu, du, hu);
+const pu = { class: "flex" }, gu = ["aria-label"], mu = { class: "ml-auto mb-2" }, vu = { class: "w-full flex justify-center" }, bu = ["src"], yu = {
   __name: "Image",
   props: {
     selection: Object
@@ -5601,15 +5611,15 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     return we(() => {
       e("load");
     }), (k, M) => (w(), I(ne, null, [
-      h("div", mu, [
+      h("div", pu, [
         h("h3", {
           class: "mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
           id: "modal-title",
           "aria-label": r.selection.item.path,
           "data-microtip-position": "bottom-right",
           role: "tooltip"
-        }, E(r.selection.item.basename), 9, vu),
-        h("div", bu, [
+        }, E(r.selection.item.basename), 9, gu),
+        h("div", mu, [
           p.value ? (w(), I("button", {
             key: 0,
             onClick: S,
@@ -5621,14 +5631,14 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
           }, E(p.value ? D(o)("Cancel") : D(o)("Edit")), 1)
         ])
       ]),
-      h("div", yu, [
+      h("div", vu, [
         h("img", {
           ref_key: "image",
           ref: n,
           class: "max-w-[50vh] max-h-[50vh]",
           src: D(er)(s.selection.adapter, s.selection.item.path),
           alt: ""
-        }, null, 8, Su)
+        }, null, 8, bu)
       ]),
       l.value.length ? (w(), q(Ne, {
         key: 0,
@@ -5642,7 +5652,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       }, 8, ["error"])) : Y("", !0)
     ], 64));
   }
-}, _u = { class: "flex" }, xu = ["aria-label"], Du = /* @__PURE__ */ h("div", null, null, -1), ku = {
+}, Su = { class: "flex" }, wu = ["aria-label"], _u = /* @__PURE__ */ h("div", null, null, -1), xu = {
   __name: "Default",
   props: {
     selection: Object
@@ -5652,23 +5662,23 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     return we(() => {
       e("load");
     }), (s, o) => (w(), I(ne, null, [
-      h("div", _u, [
+      h("div", Su, [
         h("h3", {
           class: "mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
           id: "modal-title",
           "aria-label": r.selection.item.path,
           "data-microtip-position": "bottom-right",
           role: "tooltip"
-        }, E(r.selection.item.basename), 9, xu)
+        }, E(r.selection.item.basename), 9, wu)
       ]),
-      Du
+      _u
     ], 64));
   }
-}, Mu = ["aria-label"], Iu = {
+}, Du = ["aria-label"], ku = {
   class: "w-full",
   preload: "",
   controls: ""
-}, Cu = ["src"], Eu = {
+}, Mu = ["src"], Iu = {
   __name: "Video",
   props: {
     selection: Object
@@ -5685,22 +5695,22 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         "aria-label": r.selection.item.path,
         "data-microtip-position": "bottom-right",
         role: "tooltip"
-      }, E(r.selection.item.basename), 9, Mu),
+      }, E(r.selection.item.basename), 9, Du),
       h("div", null, [
-        h("video", Iu, [
+        h("video", ku, [
           h("source", {
             src: a(),
             type: "video/mp4"
-          }, null, 8, Cu),
+          }, null, 8, Mu),
           te(" Your browser does not support the video tag. ")
         ])
       ])
     ], 64));
   }
-}, Tu = ["aria-label"], Lu = {
+}, Cu = ["aria-label"], Eu = {
   class: "w-full",
   controls: ""
-}, Au = ["src"], $u = {
+}, Tu = ["src"], Lu = {
   __name: "Audio",
   props: {
     selection: Object
@@ -5717,19 +5727,19 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         "aria-label": r.selection.item.path,
         "data-microtip-position": "bottom-right",
         role: "tooltip"
-      }, E(r.selection.item.basename), 9, Tu),
+      }, E(r.selection.item.basename), 9, Cu),
       h("div", null, [
-        h("audio", Lu, [
+        h("audio", Eu, [
           h("source", {
             src: a(),
             type: "audio/mpeg"
-          }, null, 8, Au),
+          }, null, 8, Tu),
           te(" Your browser does not support the audio element. ")
         ])
       ])
     ], 64));
   }
-}, Nu = ["aria-label"], Ou = ["data"], ju = ["src"], Pu = {
+}, Au = ["aria-label"], $u = ["data"], Nu = ["src"], Ou = {
   __name: "Pdf",
   props: {
     selection: Object
@@ -5746,7 +5756,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         "aria-label": r.selection.item.path,
         "data-microtip-position": "bottom-right",
         role: "tooltip"
-      }, E(r.selection.item.basename), 9, Nu),
+      }, E(r.selection.item.basename), 9, Au),
       h("div", null, [
         h("object", {
           class: "h-[60vh]",
@@ -5766,12 +5776,12 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
             <a href="https://example.com/test.pdf">Download the PDF</a>
             .
           </p>
-        `, 8, ju)
-        ], 8, Ou)
+        `, 8, Nu)
+        ], 8, $u)
       ])
     ], 64));
   }
-}, zu = { class: "sm:flex custom-new-folder-popup edit-preview-container" }, Ru = { class: "custom-file-picker-title" }, Bu = { class: "file-picker-title-img" }, Vu = /* @__PURE__ */ h("svg", {
+}, ju = { class: "sm:flex custom-new-folder-popup edit-preview-container" }, Pu = { class: "custom-file-picker-title" }, zu = { class: "file-picker-title-img" }, Ru = /* @__PURE__ */ h("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
   fill: "none",
@@ -5784,13 +5794,13 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     "stroke-linejoin": "round",
     d: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
   })
-], -1), Hu = {
+], -1), Bu = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Uu = /* @__PURE__ */ h("hr", null, null, -1), Zu = { class: "mt-3 text-center w-full p-4 h-full create-folder-form edit-preview" }, Yu = { class: "text-gray-700 dark:text-gray-200 text-sm" }, Wu = {
+}, Vu = /* @__PURE__ */ h("hr", null, null, -1), Hu = { class: "mt-3 text-center w-full p-4 h-full create-folder-form edit-preview" }, Uu = { class: "text-gray-700 dark:text-gray-200 text-sm" }, Zu = {
   key: 0,
   class: "flex leading-5"
-}, Fu = /* @__PURE__ */ h("svg", {
+}, Yu = /* @__PURE__ */ h("svg", {
   class: "animate-spin -ml-1 mr-3 h-5 w-5 text-white",
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
@@ -5809,7 +5819,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     fill: "currentColor",
     d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
   })
-], -1), Ku = { class: "py-2 flex font-normal break-all dark:text-gray-200 rounded text-xs" }, Gu = { class: "font-bold pl-2" }, Xu = { class: "font-bold pl-2" }, qu = { class: "search-terms-div-preview bg-white dark:bg-gray-800" }, Qu = /* @__PURE__ */ h("div", null, [
+], -1), Wu = { class: "py-2 flex font-normal break-all dark:text-gray-200 rounded text-xs" }, Fu = { class: "font-bold pl-2" }, Ku = { class: "font-bold pl-2" }, Gu = { class: "search-terms-div-preview bg-white dark:bg-gray-800" }, Xu = /* @__PURE__ */ h("div", null, [
   /* @__PURE__ */ h("label", {
     class: "custom-uploader-label",
     for: "img-upload-rte-search-terms"
@@ -5824,7 +5834,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     ]),
     /* @__PURE__ */ te(" Search Terms")
   ])
-], -1), Ju = /* @__PURE__ */ h("hr", null, null, -1), ed = /* @__PURE__ */ h("div", null, [
+], -1), qu = /* @__PURE__ */ h("hr", null, null, -1), Qu = /* @__PURE__ */ h("div", null, [
   /* @__PURE__ */ h("input", {
     id: "search-terms-file-picker",
     class: "form-control user-dynamic-input address-autocomplete",
@@ -5832,7 +5842,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     placeholder: "Search Terms",
     autocomplete: "off"
   })
-], -1), td = { id: "tags-space" }, rd = ["onClick"], sd = /* @__PURE__ */ h("div", { class: "details-div bg-white dark:bg-gray-800" }, [
+], -1), Ju = { id: "tags-space" }, ed = ["onClick"], td = /* @__PURE__ */ h("div", { class: "details-div bg-white dark:bg-gray-800" }, [
   /* @__PURE__ */ h("div", null, [
     /* @__PURE__ */ h("label", {
       class: "custom-uploader-label",
@@ -5859,9 +5869,9 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       autocomplete: "off"
     })
   ])
-], -1), od = { class: "bg-white custom-file-picker-action" }, id = {
+], -1), rd = { class: "bg-white custom-file-picker-action" }, sd = {
   name: "VFModalPreview"
-}, nd = /* @__PURE__ */ Object.assign(id, {
+}, od = /* @__PURE__ */ Object.assign(sd, {
   props: {
     selection: Object
   },
@@ -5894,11 +5904,11 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     }
     return (S, k) => (w(), q($e, null, {
       buttons: G(() => [
-        h("div", qu, [
+        h("div", Gu, [
+          Xu,
+          qu,
           Qu,
-          Ju,
-          ed,
-          h("div", td, [
+          h("div", Ju, [
             (w(!0), I(ne, null, ve(D(p), (M) => (w(), I("span", {
               key: M.id,
               class: "img-tag"
@@ -5908,13 +5918,13 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
                 src: Bs,
                 alt: "delete tag",
                 class: "delete-tag-x"
-              }, null, 8, rd),
+              }, null, 8, ed),
               h("p", null, E(M.tag_name), 1)
             ]))), 128))
           ])
         ]),
-        sd,
-        h("div", od, [
+        td,
+        h("div", rd, [
           h("button", {
             type: "button",
             onClick: k[6] || (k[6] = (M) => D(o).emit("vf-modal-close")),
@@ -5928,57 +5938,57 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         ])
       ]),
       default: G(() => [
-        h("div", zu, [
-          h("div", Ru, [
-            h("div", Bu, [
-              Vu,
-              h("h3", Hu, E(D(a)("Edit")), 1)
+        h("div", ju, [
+          h("div", Pu, [
+            h("div", zu, [
+              Ru,
+              h("h3", Bu, E(D(a)("Edit")), 1)
             ]),
-            Uu
+            Vu
           ]),
-          h("div", Zu, [
+          h("div", Hu, [
             h("div", null, [
-              l("text") ? (w(), q(Ic, {
+              l("text") ? (w(), q(kc, {
                 key: 0,
                 selection: r.selection,
                 onLoad: k[0] || (k[0] = (M) => d(!0))
-              }, null, 8, ["selection"])) : l("image") ? (w(), q(wu, {
+              }, null, 8, ["selection"])) : l("image") ? (w(), q(yu, {
                 key: 1,
                 selection: r.selection,
                 onLoad: k[1] || (k[1] = (M) => d(!0))
-              }, null, 8, ["selection"])) : l("video") ? (w(), q(Eu, {
+              }, null, 8, ["selection"])) : l("video") ? (w(), q(Iu, {
                 key: 2,
                 selection: r.selection,
                 onLoad: k[2] || (k[2] = (M) => d(!0))
-              }, null, 8, ["selection"])) : l("audio") ? (w(), q($u, {
+              }, null, 8, ["selection"])) : l("audio") ? (w(), q(Lu, {
                 key: 3,
                 selection: r.selection,
                 onLoad: k[3] || (k[3] = (M) => d(!0))
-              }, null, 8, ["selection"])) : l("application/pdf") ? (w(), q(Pu, {
+              }, null, 8, ["selection"])) : l("application/pdf") ? (w(), q(Ou, {
                 key: 4,
                 selection: r.selection,
                 onLoad: k[4] || (k[4] = (M) => d(!0))
-              }, null, 8, ["selection"])) : (w(), q(ku, {
+              }, null, 8, ["selection"])) : (w(), q(xu, {
                 key: 5,
                 selection: r.selection,
                 onLoad: k[5] || (k[5] = (M) => d(!0))
               }, null, 8, ["selection"]))
             ]),
-            h("div", Yu, [
-              n.value == !1 ? (w(), I("div", Wu, [
-                Fu,
+            h("div", Uu, [
+              n.value == !1 ? (w(), I("div", Zu, [
+                Yu,
                 h("span", null, E(D(a)("Loading")), 1)
               ])) : Y("", !0)
             ])
           ])
         ]),
-        h("div", Ku, [
+        h("div", Wu, [
           h("div", null, [
-            h("span", Gu, E(D(a)("File Size")) + ": ", 1),
+            h("span", Fu, E(D(a)("File Size")) + ": ", 1),
             te(E(D(cs)(r.selection.item.file_size)), 1)
           ]),
           h("div", null, [
-            h("span", Xu, E(D(a)("Last Modified")) + ": ", 1),
+            h("span", Ku, E(D(a)("Last Modified")) + ": ", 1),
             te(" " + E(D(us)(r.selection.item.last_modified)), 1)
           ])
         ])
@@ -5986,7 +5996,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), ad = { class: "sm:flex custom-new-folder-popup" }, ld = { class: "custom-file-picker-title" }, cd = { class: "file-picker-title-img" }, ud = /* @__PURE__ */ h("svg", {
+}), id = { class: "sm:flex custom-new-folder-popup" }, nd = { class: "custom-file-picker-title" }, ad = { class: "file-picker-title-img" }, ld = /* @__PURE__ */ h("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
   fill: "none",
@@ -5999,10 +6009,10 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     "stroke-linejoin": "round",
     d: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
   })
-], -1), dd = {
+], -1), cd = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, hd = /* @__PURE__ */ h("hr", null, null, -1), fd = { class: "mt-3 text-center w-full p-4 h-full" }, pd = { class: "mt-2 create-folder-form" }, gd = { class: "flex text-sm text-gray-800 dark:text-gray-400 py-2" }, md = {
+}, ud = /* @__PURE__ */ h("hr", null, null, -1), dd = { class: "mt-3 text-center w-full p-4 h-full" }, hd = { class: "mt-2 create-folder-form" }, fd = { class: "flex text-sm text-gray-800 dark:text-gray-400 py-2" }, pd = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -6010,13 +6020,13 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, vd = /* @__PURE__ */ h("path", {
+}, gd = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), bd = [
-  vd
-], yd = {
+}, null, -1), md = [
+  gd
+], vd = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -6024,15 +6034,15 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Sd = /* @__PURE__ */ h("path", {
+}, bd = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), wd = [
-  Sd
-], _d = { class: "ml-1.5" }, xd = ["onKeyup"], Dd = {
+}, null, -1), yd = [
+  bd
+], Sd = { class: "ml-1.5" }, wd = ["onKeyup"], _d = {
   name: "VFModalRename"
-}, kd = /* @__PURE__ */ Object.assign(Dd, {
+}, xd = /* @__PURE__ */ Object.assign(_d, {
   props: {
     selection: Object,
     current: Object
@@ -6073,19 +6083,19 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         }, E(D(a)("Cancel")), 1)
       ]),
       default: G(() => [
-        h("div", ad, [
-          h("div", ld, [
-            h("div", cd, [
-              ud,
-              h("h3", dd, E(D(a)("Rename")), 1)
+        h("div", id, [
+          h("div", nd, [
+            h("div", ad, [
+              ld,
+              h("h3", cd, E(D(a)("Rename")), 1)
             ]),
-            hd
+            ud
           ]),
-          h("div", fd, [
-            h("div", pd, [
-              h("p", gd, [
-                n.value.type == "dir" ? (w(), I("svg", md, bd)) : (w(), I("svg", yd, wd)),
-                h("span", _d, E(n.value.basename), 1)
+          h("div", dd, [
+            h("div", hd, [
+              h("p", fd, [
+                n.value.type == "dir" ? (w(), I("svg", pd, md)) : (w(), I("svg", vd, yd)),
+                h("span", Sd, E(n.value.basename), 1)
               ]),
               Ee(h("input", {
                 "onUpdate:modelValue": g[0] || (g[0] = (b) => d.value = b),
@@ -6093,7 +6103,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
                 class: "px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                 placeholder: "Name",
                 type: "text"
-              }, null, 40, xd), [
+              }, null, 40, wd), [
                 [nt, d.value]
               ]),
               p.value.length ? (w(), q(Ne, {
@@ -6113,7 +6123,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), Md = { class: "flex flex-col h-full items-center" }, Id = { class: "custom-file-picker-title" }, Cd = { class: "file-picker-title-img" }, Ed = /* @__PURE__ */ h("svg", {
+}), Dd = { class: "flex flex-col h-full items-center" }, kd = { class: "custom-file-picker-title" }, Md = { class: "file-picker-title-img" }, Id = /* @__PURE__ */ h("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
   fill: "none",
@@ -6126,13 +6136,13 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     "stroke-linejoin": "round",
     d: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
   })
-], -1), Td = {
+], -1), Cd = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Ld = /* @__PURE__ */ h("hr", null, null, -1), Ad = { class: "mt-3 text-center custom-file-picker-body" }, $d = { class: "mt-2" }, Nd = { class: "text-gray-500 mb-1" }, Od = ["id"], jd = {
+}, Ed = /* @__PURE__ */ h("hr", null, null, -1), Td = { class: "mt-3 text-center custom-file-picker-body" }, Ld = { class: "mt-2" }, Ad = { class: "text-gray-500 mb-1" }, $d = ["id"], Nd = {
   key: 0,
   class: "py-2"
-}, Pd = { class: "search-terms-div bg-white dark:bg-gray-800" }, zd = /* @__PURE__ */ h("div", null, [
+}, Od = { class: "search-terms-div bg-white dark:bg-gray-800" }, jd = /* @__PURE__ */ h("div", null, [
   /* @__PURE__ */ h("label", {
     class: "custom-uploader-label",
     for: "img-upload-rte-search-terms"
@@ -6147,7 +6157,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     ]),
     /* @__PURE__ */ te(" Search Terms")
   ])
-], -1), Rd = /* @__PURE__ */ h("hr", null, null, -1), Bd = /* @__PURE__ */ h("div", null, [
+], -1), Pd = /* @__PURE__ */ h("hr", null, null, -1), zd = /* @__PURE__ */ h("div", null, [
   /* @__PURE__ */ h("input", {
     id: "search-terms-file-picker",
     class: "form-control user-dynamic-input address-autocomplete",
@@ -6155,7 +6165,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     placeholder: "Search Terms",
     autocomplete: "off"
   })
-], -1), Vd = { id: "tags-space" }, Hd = ["onClick"], Ud = /* @__PURE__ */ h("div", { class: "details-div bg-white dark:bg-gray-800" }, [
+], -1), Rd = { id: "tags-space" }, Bd = ["onClick"], Vd = /* @__PURE__ */ h("div", { class: "details-div bg-white dark:bg-gray-800" }, [
   /* @__PURE__ */ h("div", null, [
     /* @__PURE__ */ h("label", {
       class: "custom-uploader-label",
@@ -6182,9 +6192,9 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       autocomplete: "off"
     })
   ])
-], -1), Zd = { class: "bg-white custom-file-picker-action" }, Yd = ["disabled", "onClick"], Wd = {
+], -1), Hd = { class: "bg-white custom-file-picker-action" }, Ud = ["disabled", "onClick"], Zd = {
   name: "VFModalUpload"
-}, Fd = /* @__PURE__ */ Object.assign(Wd, {
+}, Yd = /* @__PURE__ */ Object.assign(Zd, {
   props: {
     current: Object
   },
@@ -6261,11 +6271,11 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     }
     return (H, j) => (w(), q($e, null, {
       buttons: G(() => [
-        h("div", Pd, [
+        h("div", Od, [
+          jd,
+          Pd,
           zd,
-          Rd,
-          Bd,
-          h("div", Vd, [
+          h("div", Rd, [
             (w(!0), I(ne, null, ve(D(b), (T) => (w(), I("span", {
               key: T.id,
               class: "img-tag"
@@ -6275,13 +6285,13 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
                 src: Bs,
                 alt: "delete tag",
                 class: "delete-tag-x"
-              }, null, 8, Hd),
+              }, null, 8, Bd),
               h("p", null, E(T.tag_name), 1)
             ]))), 128))
           ])
         ]),
-        Ud,
-        h("div", Zd, [
+        Vd,
+        h("div", Hd, [
           h("button", {
             disabled: S.value,
             onClick: We(k, ["prevent"]),
@@ -6290,7 +6300,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
               S.value ? "bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500" : "bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500",
               "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
             ])
-          }, E(D(a)("Upload")), 11, Yd),
+          }, E(D(a)("Upload")), 11, Ud),
           h("button", {
             type: "button",
             onClick: j[1] || (j[1] = (T) => D(s).emit("vf-modal-close")),
@@ -6299,26 +6309,26 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         ])
       ]),
       default: G(() => [
-        h("div", Md, [
-          h("div", Id, [
-            h("div", Cd, [
-              Ed,
-              h("h3", Td, E(D(a)("Upload files")), 1)
+        h("div", Dd, [
+          h("div", kd, [
+            h("div", Md, [
+              Id,
+              h("h3", Cd, E(D(a)("Upload files")), 1)
             ]),
-            Ld
+            Ed
           ]),
-          h("div", Ad, [
-            h("div", $d, [
-              h("div", Nd, [
+          h("div", Td, [
+            h("div", Ld, [
+              h("div", Ad, [
                 (w(!0), I(ne, null, ve(v.value, (T) => (w(), I("div", null, [
                   h("div", {
                     id: T.id
                   }, [
                     te(E(T.name) + " ( " + E(T.size) + ") ", 1),
                     h("b", null, E(T.percent), 1)
-                  ], 8, Od)
+                  ], 8, $d)
                 ]))), 256)),
-                v.value.length ? Y("", !0) : (w(), I("div", jd, E(D(a)("No files selected!")), 1))
+                v.value.length ? Y("", !0) : (w(), I("div", Nd, E(D(a)("No files selected!")), 1))
               ]),
               h("div", {
                 class: "text-gray-500",
@@ -6349,7 +6359,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), Kd = { class: "sm:flex custom-new-folder-popup" }, Gd = { class: "custom-file-picker-title" }, Xd = { class: "file-picker-title-img" }, qd = /* @__PURE__ */ h("svg", {
+}), Wd = { class: "sm:flex custom-new-folder-popup" }, Fd = { class: "custom-file-picker-title" }, Kd = { class: "file-picker-title-img" }, Gd = /* @__PURE__ */ h("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
   fill: "none",
@@ -6362,10 +6372,10 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     "stroke-linejoin": "round",
     d: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
   })
-], -1), Qd = {
+], -1), Xd = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Jd = /* @__PURE__ */ h("hr", null, null, -1), eh = { class: "mt-3 text-center w-full p-4 h-full" }, th = { class: "mt-2 create-folder-form" }, rh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, sh = {
+}, qd = /* @__PURE__ */ h("hr", null, null, -1), Qd = { class: "mt-3 text-center w-full p-4 h-full" }, Jd = { class: "mt-2 create-folder-form" }, eh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, th = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -6373,13 +6383,13 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, oh = /* @__PURE__ */ h("path", {
+}, rh = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), ih = [
-  oh
-], nh = {
+}, null, -1), sh = [
+  rh
+], oh = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -6387,15 +6397,15 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, ah = /* @__PURE__ */ h("path", {
+}, ih = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), lh = [
-  ah
-], ch = { class: "ml-1.5" }, uh = ["onKeyup", "placeholder"], dh = {
+}, null, -1), nh = [
+  ih
+], ah = { class: "ml-1.5" }, lh = ["onKeyup", "placeholder"], ch = {
   name: "VFModalArchive"
-}, hh = /* @__PURE__ */ Object.assign(dh, {
+}, uh = /* @__PURE__ */ Object.assign(ch, {
   props: {
     selection: Object,
     current: Object
@@ -6436,19 +6446,19 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         }, E(D(a)("Cancel")), 1)
       ]),
       default: G(() => [
-        h("div", Kd, [
-          h("div", Gd, [
-            h("div", Xd, [
-              qd,
-              h("h3", Qd, E(D(a)("Archive the files")), 1)
+        h("div", Wd, [
+          h("div", Fd, [
+            h("div", Kd, [
+              Gd,
+              h("h3", Xd, E(D(a)("Archive the files")), 1)
             ]),
-            Jd
+            qd
           ]),
-          h("div", eh, [
-            h("div", th, [
-              (w(!0), I(ne, null, ve(p.value, (b) => (w(), I("p", rh, [
-                b.type == "dir" ? (w(), I("svg", sh, ih)) : (w(), I("svg", nh, lh)),
-                h("span", ch, E(b.basename), 1)
+          h("div", Qd, [
+            h("div", Jd, [
+              (w(!0), I(ne, null, ve(p.value, (b) => (w(), I("p", eh, [
+                b.type == "dir" ? (w(), I("svg", th, sh)) : (w(), I("svg", oh, nh)),
+                h("span", ah, E(b.basename), 1)
               ]))), 256)),
               Ee(h("input", {
                 "onUpdate:modelValue": g[0] || (g[0] = (b) => n.value = b),
@@ -6456,7 +6466,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
                 class: "my-1 px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                 placeholder: D(a)("Archive name. (.zip file will be created)"),
                 type: "text"
-              }, null, 40, uh), [
+              }, null, 40, lh), [
                 [nt, n.value]
               ]),
               d.value.length ? (w(), q(Ne, {
@@ -6476,7 +6486,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), fh = { class: "sm:flex sm:items-start" }, ph = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), dh = { class: "sm:flex sm:items-start" }, hh = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ h("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -6491,10 +6501,10 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       d: "M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
     })
   ])
-], -1), gh = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, mh = {
+], -1), fh = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, ph = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, vh = { class: "mt-2" }, bh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, yh = {
+}, gh = { class: "mt-2" }, mh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, vh = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -6502,13 +6512,13 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Sh = /* @__PURE__ */ h("path", {
+}, bh = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), wh = [
-  Sh
-], _h = {
+}, null, -1), yh = [
+  bh
+], Sh = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -6516,15 +6526,15 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, xh = /* @__PURE__ */ h("path", {
+}, wh = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), Dh = [
-  xh
-], kh = { class: "ml-1.5" }, Mh = { class: "my-1 text-sm text-gray-500" }, Ih = {
+}, null, -1), _h = [
+  wh
+], xh = { class: "ml-1.5" }, Dh = { class: "my-1 text-sm text-gray-500" }, kh = {
   name: "VFModalUnarchive"
-}, Ch = /* @__PURE__ */ Object.assign(Ih, {
+}, Mh = /* @__PURE__ */ Object.assign(kh, {
   props: {
     selection: Object,
     current: Object
@@ -6564,16 +6574,16 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         }, E(D(a)("Cancel")), 1)
       ]),
       default: G(() => [
-        h("div", fh, [
-          ph,
-          h("div", gh, [
-            h("h3", mh, E(D(a)("Unarchive")), 1),
-            h("div", vh, [
-              (w(!0), I(ne, null, ve(p.value, (b) => (w(), I("p", bh, [
-                b.type == "dir" ? (w(), I("svg", yh, wh)) : (w(), I("svg", _h, Dh)),
-                h("span", kh, E(b.basename), 1)
+        h("div", dh, [
+          hh,
+          h("div", fh, [
+            h("h3", ph, E(D(a)("Unarchive")), 1),
+            h("div", gh, [
+              (w(!0), I(ne, null, ve(p.value, (b) => (w(), I("p", mh, [
+                b.type == "dir" ? (w(), I("svg", vh, yh)) : (w(), I("svg", Sh, _h)),
+                h("span", xh, E(b.basename), 1)
               ]))), 256)),
-              h("p", Mh, E(D(a)("The archive will be unarchived at")) + " (" + E(r.current.dirname) + ")", 1),
+              h("p", Dh, E(D(a)("The archive will be unarchived at")) + " (" + E(r.current.dirname) + ")", 1),
               d.value.length ? (w(), q(Ne, {
                 key: 0,
                 onHidden: g[0] || (g[0] = (b) => d.value = ""),
@@ -6591,7 +6601,7 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), Eh = { class: "sm:flex sm:items-start" }, Th = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Ih = { class: "sm:flex sm:items-start" }, Ch = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ h("svg", {
     class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
     xmlns: "http://www.w3.org/2000/svg",
@@ -6607,10 +6617,10 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
     })
   ])
-], -1), Lh = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Ah = {
+], -1), Eh = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Th = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, $h = { class: "mt-2" }, Nh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Oh = {
+}, Lh = { class: "mt-2" }, Ah = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, $h = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -6618,13 +6628,13 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, jh = /* @__PURE__ */ h("path", {
+}, Nh = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), Ph = [
-  jh
-], zh = {
+}, null, -1), Oh = [
+  Nh
+], jh = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -6632,13 +6642,13 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Rh = /* @__PURE__ */ h("path", {
+}, Ph = /* @__PURE__ */ h("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), Bh = [
-  Rh
-], Vh = { class: "ml-1.5" }, Hh = { class: "text-sm text-gray-500 pb-1 pt-3" }, Uh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Zh = /* @__PURE__ */ h("svg", {
+}, null, -1), zh = [
+  Ph
+], Rh = { class: "ml-1.5" }, Bh = { class: "text-sm text-gray-500 pb-1 pt-3" }, Vh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Hh = /* @__PURE__ */ h("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
   fill: "none",
@@ -6651,9 +6661,9 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
     "stroke-linejoin": "round",
     d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
   })
-], -1), Yh = { class: "ml-1.5 overflow-auto" }, Wh = {
+], -1), Uh = { class: "ml-1.5 overflow-auto" }, Zh = {
   name: "VFModalMove"
-}, Fh = /* @__PURE__ */ Object.assign(Wh, {
+}, Yh = /* @__PURE__ */ Object.assign(Zh, {
   props: {
     selection: Object,
     current: Object,
@@ -6719,19 +6729,19 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
         }, E(D(o)("Cancel")), 1)
       ]),
       default: G(() => [
-        h("div", Eh, [
-          Th,
-          h("div", Lh, [
-            h("h3", Ah, E(D(o)("Move files")), 1),
-            h("div", $h, [
-              (w(!0), I(ne, null, ve(d.value, (k) => (w(), I("p", Nh, [
-                k.type == "dir" ? (w(), I("svg", Oh, Ph)) : (w(), I("svg", zh, Bh)),
-                h("span", Vh, E(k.path), 1)
+        h("div", Ih, [
+          Ch,
+          h("div", Eh, [
+            h("h3", Th, E(D(o)("Move files")), 1),
+            h("div", Lh, [
+              (w(!0), I(ne, null, ve(d.value, (k) => (w(), I("p", Ah, [
+                k.type == "dir" ? (w(), I("svg", $h, Oh)) : (w(), I("svg", jh, zh)),
+                h("span", Rh, E(k.path), 1)
               ]))), 256)),
-              h("p", Hh, E(D(o)("Are you sure you want to move these files?")), 1),
-              h("p", Uh, [
-                Zh,
-                h("span", Yh, E(r.selection.items.to.path), 1)
+              h("p", Bh, E(D(o)("Are you sure you want to move these files?")), 1),
+              h("p", Vh, [
+                Hh,
+                h("span", Uh, E(r.selection.items.to.path), 1)
               ]),
               p.value.length ? (w(), q(Ne, {
                 key: 0,
@@ -6750,23 +6760,23 @@ const mu = { class: "flex" }, vu = ["aria-label"], bu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), Kh = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}), Wh = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  ModalArchive: hh,
-  ModalDelete: Wl,
-  ModalMessage: ec,
-  ModalMove: Fh,
-  ModalNewFile: wc,
-  ModalNewFolder: hc,
-  ModalPreview: nd,
-  ModalRename: kd,
-  ModalUnarchive: Ch,
-  ModalUpload: Fd
+  ModalArchive: uh,
+  ModalDelete: Zl,
+  ModalMessage: Ql,
+  ModalMove: Yh,
+  ModalNewFile: yc,
+  ModalNewFolder: uc,
+  ModalPreview: od,
+  ModalRename: xd,
+  ModalUnarchive: Mh,
+  ModalUpload: Yd
 }, Symbol.toStringTag, { value: "Module" })), qt = {
   VueFinder: vl,
-  ...Kh
+  ...Wh
 };
-const qh = {
+const Gh = {
   install(r) {
     for (const e in qt)
       if (qt.hasOwnProperty(e)) {
@@ -6776,5 +6786,5 @@ const qh = {
   }
 };
 export {
-  qh as default
+  Gh as default
 };
