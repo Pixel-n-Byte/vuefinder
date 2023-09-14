@@ -132,8 +132,8 @@
         <div class="custom-grid-item-div">
           <div class="relative grid-folder-view-item">
             <img v-if="item.type == 'dir'" src="../assets/folder.svg" alt="" />
-            <img class="custom-grid-item-file lazy" v-else-if="(item.mime_type ?? '').startsWith('image')"
-              :data-src="getImageUrl(adapter.value, item.path)" :alt="item.basename" />
+            <img class="custom-grid-item-file" v-else-if="(item.mime_type ?? '').startsWith('image')"
+              :src="item.path.replace('local://', 'http://localhost:8000/storage/')" :alt="item.basename" />
             <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto text-neutral-500"
               fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
               <path stroke-linecap="round" stroke-linejoin="round"
