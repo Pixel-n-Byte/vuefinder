@@ -12,6 +12,10 @@
   min-width: 75% !important;
   min-height: 75vh !important;
 }
+.custom-drag-drop-overlay {
+  border: 1px solid #25a8dd;
+  border-radius: 50px;
+}
 .custom-layout-pop-window {
   width: 75%;
   box-shadow: 1px 1px 2px #00000005;

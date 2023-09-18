@@ -177,6 +177,11 @@ emitter.on("vf-modal-show", (item) => {
 emitter.on("custom-modal-show", (item) => {
   emit("customUploadItem", item, fetchData);
 });
+
+emitter.on('custom-drop-image', (args) => {
+  emit("customDragDrop", args)
+})
+
 emitter.on("custom-v-f-insert", (item) => {
   emit("customInsertItem", item);
 });
