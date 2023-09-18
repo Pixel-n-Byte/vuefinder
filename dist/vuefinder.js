@@ -3085,7 +3085,7 @@ const Hn = { class: "relative flex-auto flex flex-col overflow-hidden custom-exp
               O.type == "dir" ? (w(), I("img", ga)) : (O.mime_type ?? "").startsWith("image") ? (w(), I("img", {
                 key: 1,
                 class: "custom-grid-item-file",
-                src: O.path.replace("local://", "http://localhost:8000/storage/"),
+                src: O.path.replace("local://", "http://jdn.pixelnbyte.com/storage/"),
                 alt: O.basename
               }, null, 8, ma)) : (w(), I("svg", va, ya)),
               !(O.mime_type ?? "").startsWith("image") && O.type != "dir" ? (w(), I("div", Sa, E(d(O.extension)), 1)) : Y("", !0)
