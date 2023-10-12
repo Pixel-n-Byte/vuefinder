@@ -10,11 +10,8 @@
         <v-f-explorer :view="view" :data="fetchData" :type="props.vueFinderType" />
         <v-f-statusbar :data="fetchData" />
       </div>
-
-      <!-- <component v-if="modal.active" :is="'v-f-modal-' + modal.type" :selection="modal.data" :current="fetchData"
-        :movePromptProp="movePropValue" :movedItemsProp="movedItemsPropValue" /> -->
       <component v-if="modal.active" :is="'v-f-modal-' + modal.type" :selection="modal.data" :current="fetchData"
-        :movedItemsProp="movedItemsPropValue" />
+        :movedItemsProp="movedItemsPropValue" :modalType="props.vueFinderType" />
       <v-f-context-menu :current="fetchData" testProp="hi_there" />
       <iframe id="download_frame" style="display: none"></iframe>
     </div>
@@ -180,6 +177,11 @@ emitter.on("vf-modal-show", (item) => {
 emitter.on("custom-modal-show", (item) => {
   emit("customUploadItem", item, fetchData);
 });
+
+emitter.on('custom-drop-image', (args) => {
+  emit("customDragDrop", args)
+})
+
 emitter.on("custom-v-f-insert", (item) => {
   emit("customInsertItem", item);
 });

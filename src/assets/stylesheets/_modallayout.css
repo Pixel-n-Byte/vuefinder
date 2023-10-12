@@ -1,10 +1,20 @@
 .custom-popup-layout {
-  min-width: 75% !important;
-  min-height: 75vh !important;
   background-color: transparent !important;
   display: flex;
   grid-gap: 40px;
   position: relative;
+}
+.custom-layout-standalone {
+  width: 100%;
+  height: 65vh !important;
+}
+.custom-layout-regular {
+  min-width: 75% !important;
+  min-height: 75vh !important;
+}
+.custom-drag-drop-overlay {
+  border: 1px solid #25a8dd;
+  border-radius: 50px;
 }
 .custom-layout-pop-window {
   width: 75%;

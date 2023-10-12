@@ -50,7 +50,8 @@
       })
       "
       :class="`h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto ${props.type == 'standalone' ? 'standalone-grid-div' : ''}`"
-      ref="selectorArea">
+      ref="selectorArea" @drop="dropImagesFromBrowser" @dragover.prevent="dragOverExplorer"
+      @dragleave.prevent="dragLeaveExplorer">
       <div v-if="searchQuery.length" @dblclick="openItem(item)" @touchstart="delayedOpenItem($event)"
         @touchend="clearTimeOut()" @contextmenu.prevent="
           emitter.emit('vf-contextmenu-show', {
@@ -185,11 +186,6 @@ const props = defineProps({
   search: Object,
   type: String
 });
-
-function testDouble() {
-  console.log('standalone double')
-}
-
 const emitter = inject("emitter");
 const { setStore, getStore } = inject("storage");
 const adapter = inject("adapter");
@@ -205,6 +201,8 @@ const randId = Math.floor(Math.random() * 2 ** 32);
 const fullScreen = ref(getStore("full-screen", false));
 
 const vfLazyLoad = new LazyLoad();
+
+const dragOverlay = ref();
 
 emitter.on("vf-fullscreen-toggle", () => {
   selectorArea.value.style.height = null;
@@ -358,17 +356,23 @@ const handleDragStart = (e, item) => {
 
 const handleDropZone = (e, item) => {
   e.preventDefault();
-  let draggedItems = JSON.parse(e.dataTransfer.getData("items"));
+  let draggedItems;
 
-  if (draggedItems.find((item) => item.storage != adapter.value)) {
-    alert("Moving items between different storages is not supported yet.");
-    return;
+  if (!e.dataTransfer.files[0]) {
+    if (e.dataTransfer.getData("items")) {
+      draggedItems = JSON.parse(e.dataTransfer.getData("items"));
+
+      if (draggedItems.find((item) => item.storage != adapter.value)) {
+        alert("Moving items between different storages is not supported yet.");
+        return;
+      }
+
+      emitter.emit("vf-modal-show", {
+        type: "move",
+        items: { from: draggedItems, to: item },
+      });
+    }
   }
-
-  emitter.emit("vf-modal-show", {
-    type: "move",
-    items: { from: draggedItems, to: item },
-  });
 };
 
 const handleDragOver = (e, item) => {
@@ -430,7 +434,9 @@ const setDragSelect = () => {
   });
 };
 
-onMounted(setDragSelect);
+onMounted(() => {
+  setDragSelect();
+});
 
 onUpdated(() => {
   ds.value.Area.reset();
@@ -444,4 +450,25 @@ onMounted(() => {
     () => emitter.emit("vf-explorer-update")
   );
 });
+const dragOverExplorer = (event) => {
+  selectorArea.value.classList.add('custom-drag-drop-overlay')
+}
+
+const dragLeaveExplorer = (event) => {
+  selectorArea.value.classList.remove('custom-drag-drop-overlay')
+}
+
+const dropImagesFromBrowser = (event) => {
+  event.preventDefault();
+  selectorArea.value.classList.remove('custom-drag-drop-overlay')
+  let emittedArguments;
+  if (event.dataTransfer.files[0]) {
+    emittedArguments = {
+      dirPath: props.data.dirname,
+      targetElement: selectorArea.value,
+      fileArray: event.dataTransfer.files
+    }
+    emitter.emit('custom-drop-image', emittedArguments)
+  }
+}
 </script>

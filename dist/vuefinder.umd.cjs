@@ -84,7 +84,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   "Drag&Drop: off": "Drag&Drop: off",
   "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "The selected file exceeds the maximum file size. You cannot upload files greater than %s"
 }
-`},Symbol.toStringTag,{value:"Module"})),Ud=Object.freeze(Object.defineProperty({__proto__:null,default:`{
+`},Symbol.toStringTag,{value:"Module"})),Fd=Object.freeze(Object.defineProperty({__proto__:null,default:`{
   "Language": "زبان",
   "Create": "ایجاد",
   "Close": "بستن",
@@ -152,7 +152,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   "Drag&Drop: off": "Drag&Drop: خاموش",
   "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "حداکثر ظرفیت مجاز فایل %s میباشد! فایل شما بزرگتر از این مقدار میباشد."
 }
-`},Symbol.toStringTag,{value:"Module"})),Yd=Object.freeze(Object.defineProperty({__proto__:null,default:`{
+`},Symbol.toStringTag,{value:"Module"})),Ud=Object.freeze(Object.defineProperty({__proto__:null,default:`{
   "Language": "שפה",
   "Create": "יצירה",
   "Close": "סגירה",
@@ -220,7 +220,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   "Drag&Drop: off": "מצב גרירה: כבוי",
   "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "הקובץ הנבחר חורג ממגבלת המקסימום של גודל קובץ. לא ניתן להעלות קובץ גדול מ-%s"
 }
-`},Symbol.toStringTag,{value:"Module"})),Zd=Object.freeze(Object.defineProperty({__proto__:null,default:`{
+`},Symbol.toStringTag,{value:"Module"})),Yd=Object.freeze(Object.defineProperty({__proto__:null,default:`{
   "Language": "Язык",
   "Create": "Создать",
   "Close": "Закрыть",
@@ -287,7 +287,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   "Drag&Drop: on": "Drag&Drop: on",
   "Drag&Drop: off": "Drag&Drop: off"
 }
-`},Symbol.toStringTag,{value:"Module"})),Wd=Object.freeze(Object.defineProperty({__proto__:null,default:`{
+`},Symbol.toStringTag,{value:"Module"})),Zd=Object.freeze(Object.defineProperty({__proto__:null,default:`{
   "Language": "Dil",
   "Create": "Oluştur",
   "Close": "Kapat",
@@ -355,4 +355,4 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   "Drag&Drop: off": "Sürükle&Bırak: devre dışı",
   "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "Seçilen dosya maksimum dosya boyutunu aşıyor. %s'den büyük dosyaları yükleyemezsiniz."
 }
-`},Symbol.toStringTag,{value:"Module"}));return Hd});
+`},Symbol.toStringTag,{value:"Module"}));return Rd});
